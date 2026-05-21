@@ -1,24 +1,29 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeMount } from 'vue'
-import { Icon, loadIcons } from '@iconify/vue'
-import json from '@iconify/json/json/mdi.json'
+import { ref } from 'vue'
+import { Icon, addAPIProvider } from '@iconify/vue'
+// import json from '@iconify/json/json/mdi.json'
 
-const iconPrefix = json.prefix // 获取图标前缀
-const icons = Object.keys(json.icons) // 获取所有图标名称
-const iconRef = ref<string>('mdi:home') // 初始化图标
+// const iconPrefix = json.prefix // 获取图标前缀
+// const icons = Object.keys(json.icons) // 获取所有图标名称
+// const iconRef = ref<string>('mdi:home') // 初始化图标
+const iconRef = ref<string>('@local:mdi:123') // 初始化图标
 // console.log(icons)
 
-onBeforeMount(() => {
-  loadIcons(icons.map((icon) => iconPrefix + ':' + icon)) // 预加载所有图标，避免图标闪烁问题
+addAPIProvider('local', {
+  resources: ['http://localhost:5173'],
 })
 
-onMounted(() => {
-  // 随机切换图标
-  setInterval(() => {
-    const randomIcon = icons[Math.floor(Math.random() * icons.length)]
-    iconRef.value = iconPrefix + ':' + randomIcon
-  }, 1000)
-})
+// onBeforeMount(() => {
+//   loadIcons(icons.map((icon) => iconPrefix + ':' + icon)) // 预加载所有图标，避免图标闪烁问题
+// })
+
+// onMounted(() => {
+//   // 随机切换图标
+//   setInterval(() => {
+//     const randomIcon = icons[Math.floor(Math.random() * icons.length)]
+//     iconRef.value = iconPrefix + ':' + randomIcon
+//   }, 1000)
+// })
 </script>
 
 <template>
