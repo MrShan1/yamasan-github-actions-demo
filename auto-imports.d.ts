@@ -6,5 +6,5 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-
+  const Icon: typeof import('@iconify/vue').Icon
 }
