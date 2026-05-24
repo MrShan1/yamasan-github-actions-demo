@@ -11,7 +11,8 @@ type Props = NetIconProps & {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  url: '//at.alicdn.com/t/c/font_5177399_n7oi47jxo9j.css',
+  //   url: '//at.alicdn.com/t/c/font_5177399_n7oi47jxo9j.css',
+  url: '/font_5177399_n7oi47jxo9j.css',
   prefix: 'iconfont',
   fontFamily: 'icon',
 })
