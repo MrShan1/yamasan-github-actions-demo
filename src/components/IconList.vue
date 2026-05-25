@@ -1,15 +1,20 @@
 <template>
-  <ul class="flex flex-wrap border-t border-l border-gray-200 text-gray-500">
+  <ul
+    :class="`grid grid-cols-[repeat(auto-fill,minmax(${itemWidth},1fr))] border-t border-l border-gray-200 text-gray-500`"
+  >
     <li
       :class="[
-        'border-r border-b border-gray-200 flex flex-col items-center justify-center cursor-pointer',
+        'border-r border-b border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:bg-sky-100',
         itemClass,
       ]"
       v-for="icon in icons"
       :key="icon"
       @click="handleClick(icon)"
     >
-      <Icon :icon="`${prefix}:${icon}`" :class="iconClass" />
+      <Icon
+        :icon="`${prefix}:${icon}`"
+        :class="[iconClass, selectedIcon === icon ? activeClass : '']"
+      />
       <div class="text-center text-sm mt-3" v-if="showIconNameFlag">
         {{ capitalizeString(icon) }}
       </div>
@@ -18,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { Icon, loadIcons } from '@iconify/vue'
 // import epIcons from '@iconify/json/json/ep.json'
 import epIcons from '../assets/icon-ep.json'
@@ -27,20 +32,26 @@ import { capitalizeString } from '../utils'
 interface Props {
   icons?: string[] // 图标列表
   prefix?: string // 图标前缀
+  itemWidth?: string // 图标项宽度
   itemClass?: string // 图标项类名
   iconClass?: string // 图标类名
   showIconNameFlag?: boolean // 是否显示图标名称
   copyIconComponentFlag?: boolean // 是否复制图标组件
+  activeClass?: string // 激活图标类名
 }
 
 const props = withDefaults(defineProps<Props>(), {
   icons: () => epIcons,
   prefix: 'ep',
-  itemClass: 'w-1/8 py-4 hover:bg-sky-100',
+  itemWidth: '120px',
+  itemClass: 'py-4',
   iconClass: 'text-3xl',
   showIconNameFlag: true,
   copyIconComponentFlag: false,
+  activeClass: '',
 })
+
+const selectedIcon = ref('')
 
 // ============================== 图标加载 ==============================
 
@@ -55,6 +66,7 @@ const emit = defineEmits<{
 
 // 点击图标
 function handleClick(icon: string) {
-  emit('click', icon)
+  selectedIcon.value = icon
+  emit('click', `${props.prefix}:${icon}`)
 }
 </script>

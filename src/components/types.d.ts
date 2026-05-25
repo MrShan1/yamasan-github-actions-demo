@@ -4,3 +4,9 @@ export interface NetIconProps {
   fontFamily?: string
   type: string
 }
+
+export interface IconPickerDataType {
+  icon: string
+  color: string
+  size: number
+}

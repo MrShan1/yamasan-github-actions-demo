@@ -44,6 +44,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/ep-icon-picker': RouteRecordInfo<
+      '/ep-icon-picker',
+      '/ep-icon-picker',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -72,6 +79,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/ep-icon-list.vue': {
       routes:
         | '/ep-icon-list'
+      views:
+        | never
+    }
+    'src/pages/ep-icon-picker.vue': {
+      routes:
+        | '/ep-icon-picker'
       views:
         | never
     }

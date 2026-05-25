@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { Icon, addAPIProvider } from '@iconify/vue'
 import svgIcon from '../assets/icons/chuang.svg'
-import IconList from '../components/IconList.vue'
 
 const iconRef = ref<string>('@local:mdi:123') // 初始化图标
 
@@ -13,8 +12,10 @@ addAPIProvider('local', {
 </script>
 
 <template>
-  <!-- <RouterView /> -->
   <div class="container px-4">
+    <h3>IconPicker组件</h3>
+    <IconPicker />
+
     <h3>IconList组件</h3>
     <IconList />
 

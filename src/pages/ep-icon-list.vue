@@ -29,7 +29,6 @@ import { loadIcon } from '@iconify/vue'
 import { useClipboard } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
 import type { IconifyIcon } from '@iconify/types'
-import IconList from '../components/IconList.vue'
 import { capitalizeString } from '../utils'
 
 // ============================== 复制图标 ==============================
@@ -39,13 +38,14 @@ const { copy, copied } = useClipboard({ source: copiedSource })
 
 async function handleClick(icon: string) {
   if (copyIconComponentFlag.value) {
-    copiedSource.value = `<div class="i-ep:${icon}"></div>`
+    copiedSource.value = `<div class="i-${icon}"></div>`
   } else if (copySvgFlag.value) {
-    const res = await loadIcon(`ep:${icon}`)
+    const res = await loadIcon(icon)
     const svg = objectToSvg(res)
     copiedSource.value = svg
   } else {
-    copiedSource.value = capitalizeString(icon)
+    const iconName = icon.split(':')[1]
+    copiedSource.value = capitalizeString(iconName ?? '')
   }
 
   await copy()
