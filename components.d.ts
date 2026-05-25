@@ -12,10 +12,13 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     IconFontIcon: typeof import('./src/components/IconFontIcon.vue')['default']
     IconList: typeof import('./src/components/IconList.vue')['default']
     NetIcon: typeof import('./src/components/NetIcon.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/SvgIcon.vue')['default']
   }
 }

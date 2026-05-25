@@ -7,4 +7,8 @@
 export {}
 declare global {
   const Icon: typeof import('@iconify/vue').Icon
+  const onBeforeRouteLeave: typeof import('vue-router').onBeforeRouteLeave
+  const onBeforeRouteUpdate: typeof import('vue-router').onBeforeRouteUpdate
+  const useRoute: typeof import('vue-router').useRoute
+  const useRouter: typeof import('vue-router').useRouter
 }

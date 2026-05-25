@@ -9,15 +9,19 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import tailwindcss from '@tailwindcss/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import ElementPlus from 'unplugin-element-plus/vite'
+import VueRouter from 'unplugin-vue-router/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    VueRouter(),
     vue(),
     vueDevTools(),
     tailwindcss(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
+      imports: [VueRouterAutoImports],
     }),
     Components({
       resolvers: [ElementPlusResolver()],
