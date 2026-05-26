@@ -1,6 +1,7 @@
 <template>
   <ul
-    :class="`grid grid-cols-[repeat(auto-fill,minmax(${itemWidth},1fr))] border-t border-l border-gray-200 text-gray-500`"
+    class="grid border-t border-l border-gray-200 text-gray-500"
+    :style="{ gridTemplateColumns: `repeat(auto-fill, minmax(${itemWidth}, 1fr))` }"
   >
     <li
       :class="[
@@ -23,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, computed } from 'vue'
 import { Icon, loadIcons } from '@iconify/vue'
 // import epIcons from '@iconify/json/json/ep.json'
 import epIcons from '../assets/icon-ep.json'
@@ -43,7 +44,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   icons: () => epIcons,
   prefix: 'ep',
-  itemWidth: '120px',
+  itemWidth: '130px',
   itemClass: 'py-4',
   iconClass: 'text-3xl',
   showIconNameFlag: true,
