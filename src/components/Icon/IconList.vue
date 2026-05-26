@@ -14,7 +14,10 @@
     >
       <Icon
         :icon="`${prefix}:${icon}`"
-        :class="[iconClass, selectedIcon === icon ? activeClass : '']"
+        :class="[
+          iconClass,
+          { [activeClass]: (modelValue && modelValue === icon) || selectedIcon === icon },
+        ]"
       />
       <div class="text-center text-sm mt-3" v-if="showIconNameFlag">
         {{ capitalizeString(icon) }}
@@ -27,21 +30,11 @@
 import { onBeforeMount, ref, computed } from 'vue'
 import { Icon, loadIcons } from '@iconify/vue'
 // import epIcons from '@iconify/json/json/ep.json'
-import epIcons from '../assets/icon-ep.json'
-import { capitalizeString } from '../utils'
+import epIcons from '../../assets/icon-ep.json'
+import { capitalizeString } from '../../utils'
+import type { IconListType } from './types'
 
-interface Props {
-  icons?: string[] // 图标列表
-  prefix?: string // 图标前缀
-  itemWidth?: string // 图标项宽度
-  itemClass?: string // 图标项类名
-  iconClass?: string // 图标类名
-  showIconNameFlag?: boolean // 是否显示图标名称
-  copyIconComponentFlag?: boolean // 是否复制图标组件
-  activeClass?: string // 激活图标类名
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<IconListType>(), {
   icons: () => epIcons,
   prefix: 'ep',
   itemWidth: '130px',
@@ -68,6 +61,13 @@ const emit = defineEmits<{
 // 点击图标
 function handleClick(icon: string) {
   selectedIcon.value = icon
+  modelValue.value = icon
   emit('click', `${props.prefix}:${icon}`)
 }
+
+// ============================== 默认图标 ==============================
+const modelValue = defineModel('defaultIcon', {
+  type: String,
+  default: 'alarm-clock',
+})
 </script>

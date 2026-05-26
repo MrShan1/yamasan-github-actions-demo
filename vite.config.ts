@@ -24,6 +24,8 @@ export default defineConfig({
       imports: [VueRouterAutoImports],
     }),
     Components({
+      directoryAsNamespace: false, // 是否将目录作为命名空间
+      collapseSamePrefixes: false, // 是否合并相同的前缀
       resolvers: [ElementPlusResolver()],
     }),
     createSvgIconsPlugin({

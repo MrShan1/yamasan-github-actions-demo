@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IconPickerDataType } from '../components/types'
+import type { IconPickerDataType } from '../components/Icon/types'
 
 const handleConfirm = (data: IconPickerDataType) => {
   console.log(data)

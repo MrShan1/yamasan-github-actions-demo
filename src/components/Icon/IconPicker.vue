@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="icon-picker">
     <!-- 触发选择图标的按钮 -->
     <el-button type="primary" @click="() => toggleVisible(true)">选择图标</el-button>
     <!-- 选择图标的弹窗 -->
-    <el-dialog v-model="visible" title="选择图标" :width="width">
+    <el-dialog v-model="visible" :title="title" :width="width">
       <!-- 图标列表 -->
       <IconList
         :showIconNameFlag="false"
@@ -12,16 +12,23 @@
         itemWidth="1.875rem"
         itemClass=""
         iconClass="text-2xl"
+        v-model:defaultIcon="defaultIcon"
       />
-      <div class="mt-2 flex items-center justify-start">
-        <!-- 图标颜色选择器 -->
-        <el-color-picker v-model="color" />
-        <!-- 图标大小选择器 -->
-        <el-input-number v-model="size" :step="1" class="ml-2" />
+      <div class="mt-2 py-2 flex items-center justify-start whitespace-nowrap">
+        <div class="flex items-center">
+          <span>图标颜色：</span>
+          <el-color-picker v-model="color" class="ml-2" />
+        </div>
+        <div class="flex items-center ml-4 flex-1">
+          <span>图标大小：</span>
+          <el-slider v-model="size" show-input class="ml-2" />
+        </div>
       </div>
       <!-- 图标预览 -->
-      <div class="mt-2">
-        选中的图标：<Icon :icon="icon" :color="color" :width="size" :height="size" />
+      <div class="mt-2 flex items-start justify-start">
+        <span>选中的图标：</span>
+        <Icon class="ml-2" :icon="icon" :color="color" :width="size" :height="size" />
+        <span class="ml-2">{{ icon }}</span>
       </div>
       <!-- 确定和取消按钮 -->
       <template #footer>
@@ -42,11 +49,16 @@ const [visible, toggleVisible] = useToggle(false)
 const color = ref('#409eff')
 const size = ref(16)
 const icon = ref('')
+const defaultIcon = ref('apple')
 
 defineProps({
   width: {
     type: String,
     default: '50%',
+  },
+  title: {
+    type: String,
+    default: '选择图标',
   },
 })
 
@@ -64,4 +76,14 @@ const handleConfirm = () => {
 }
 </script>
 
-<style lang="css" scoped></style>
+<style lang="less" scoped>
+.icon-picker {
+  :deep(.el-dialog__body) {
+    height: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    max-height: 65vh;
+    overflow-y: auto;
+  }
+}
+</style>
