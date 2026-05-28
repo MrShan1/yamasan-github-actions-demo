@@ -13,6 +13,9 @@ addAPIProvider('local', {
 
 <template>
   <div class="container px-4">
+    <h3>全屏组件</h3>
+    <FullScreen tag="span" style="color: blue; width: 20px; height: 20px" />
+
     <h3>主题切换组件 - 明亮|暗黑</h3>
     <DarkModeToggle :dark="false" />
     <!-- 在main.css中添加tailwind的指令@custom-variant dark (&:where(.dark, .dark *)) -->
