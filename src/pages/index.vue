@@ -13,6 +13,12 @@ addAPIProvider('local', {
 
 <template>
   <div class="container px-4">
+    <h3>主题切换组件 - 明亮|暗黑</h3>
+    <DarkModeToggle :dark="false" />
+    <!-- 在main.css中添加tailwind的指令@custom-variant dark (&:where(.dark, .dark *)) -->
+    <!-- 然后在自定义元素中使用dark:xxx添加暗黑主题样式 -->
+    <div class="bg-white dark:bg-red-500">自定义元素使用dark:xxx添加暗黑主题样式</div>
+
     <h3>IconPicker组件</h3>
     <IconPicker />
 

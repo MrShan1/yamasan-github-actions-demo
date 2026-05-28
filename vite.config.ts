@@ -11,12 +11,14 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import ElementPlus from 'unplugin-element-plus/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     VueRouter(),
     vue(),
+    vueJsx(),
     vueDevTools(),
     tailwindcss(),
     AutoImport({
