@@ -2,17 +2,30 @@
 import { ref } from 'vue'
 import { Icon, addAPIProvider } from '@iconify/vue'
 import svgIcon from '../assets/icons/chuang.svg'
+import { useI18n } from 'vue-i18n'
 
+// ------------------------------图标组件---------------------------------
 const iconRef = ref<string>('@local:mdi:123') // 初始化图标
 
 // 添加本地图标提供者
 addAPIProvider('local', {
   resources: ['http://localhost:5173'],
 })
+
+// ------------------------------国际化功能---------------------------------
+// 使用useI18n获取国际化实例
+const { t, locale } = useI18n()
 </script>
 
 <template>
   <div class="container px-4">
+    <h3>国际化功能</h3>
+    <h1>{{ t('message.hello') }}</h1>
+    <select v-model="locale">
+      <option value="en">英文</option>
+      <option value="zh">中文</option>
+    </select>
+
     <h3>全屏组件</h3>
     <FullScreen tag="span" style="color: blue; width: 20px; height: 20px" />
 
