@@ -31,6 +31,9 @@ watch(locale, (newVal) => {
         <option value="zh-CN">中文</option>
       </select>
       <h1>{{ t('hello') }}</h1>
+      <div class="ml-4 flex items-center whitespace-nowrap">
+        EP组件： <el-select style="width: 100px" />
+      </div>
     </div>
 
     <h3>全屏组件</h3>

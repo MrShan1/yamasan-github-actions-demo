@@ -1,6 +1,8 @@
 import { createI18n, type Locale } from 'vue-i18n'
 import type { App } from 'vue'
 
+type LocaleMessages = Record<Locale, () => Promise<{ default: Record<string, string> }>>
+
 export const DEFAULT_LOCALE = 'zh-CN'
 
 const i18n = createI18n({
@@ -20,11 +22,24 @@ const localesMap = Object.fromEntries(
     path.match(/([\w-]*)\.json$/)?.[1],
     loadLocale,
   ]),
-) as Record<Locale, () => Promise<{ default: Record<string, string> }>>
-
+) as LocaleMessages
 export const availableLocales = Object.keys(localesMap) // ['en', 'zh-CN']
-
 const loadedLanguages: string[] = []
+
+// 记录Element Plus的locale映射
+const epLocaleMap = Object.fromEntries(
+  Object.entries(import.meta.glob('../../node_modules/element-plus/dist/locale/*.min.mjs')).map(
+    ([path, loadLocale]) => [path.match(/([\w-]*)\.min\.mjs$/)?.[1], loadLocale],
+  ),
+) as LocaleMessages
+// 过滤EP的locale映射，只保留需要的locale
+const filteredEpLocaleMap = availableLocales.reduce((acc: LocaleMessages, locale: string) => {
+  locale = locale.toLowerCase() // 转换为小写，EP的locale为小写
+  if (epLocaleMap[locale]) {
+    acc[locale] = epLocaleMap[locale] as () => Promise<{ default: Record<string, string> }>
+  }
+  return acc
+}, {} as LocaleMessages)
 
 export function setI18nLanguage(locale: string) {
   i18n.global.locale.value = locale
@@ -49,9 +64,13 @@ export async function loadLocaleMessages(locale: string) {
 
   // 加载locale messages
   const messages = await localesMap[locale]()
+  const epMessages = await filteredEpLocaleMap[locale.toLowerCase()]?.()
 
   // 设置locale和locale message
-  i18n.global.setLocaleMessage(locale, messages.default)
+  i18n.global.setLocaleMessage(locale, {
+    ...epMessages?.default,
+    ...messages.default,
+  })
   // 记录已加载的locale
   loadedLanguages.push(locale)
 

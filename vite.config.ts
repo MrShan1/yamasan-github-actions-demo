@@ -39,7 +39,8 @@ export default defineConfig({
     }),
     ElementPlus({}),
     VueI18nPlugin({
-      // locale messages resource pre-compile option
+      // 声明哪些 locale 资源在构建时被插件处理
+      // loadLocaleMessages 里 await localesMap[locale]() 仍是动态 import，但路径落在 include 内时，插件会在构建期把 JSON 预编译成更利于运行时的格式，而不是裸 JSON
       include: path.resolve(process.cwd(), './src/locales/**'),
       // 由于i18n.ts使用composition API，legacy为false，此处禁止修改
       compositionOnly: true,
