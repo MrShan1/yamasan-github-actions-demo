@@ -11,13 +11,13 @@ const i18n = createI18n({
 
 // 读取locales目录下的所有js文件，并生成一个对象，key为文件名，value为动态导入函数
 // 原理：
-// import.meta.glob(...) -> modules对象 -> { './locales/en.js': () => import('./locales/en.js'), ... }
-// Object.entries(...) -> 读取key-value -> [['./locales/en.js', () => import('./locales/en.js')], ...]
-// Array.map[...] -> 简化key-value -> [['en', () => import('./locales/en.js')], ...]
-// Object.fromEntries(...) -> 将key-value转换为对象 -> { en: () => import('./locales/en.js'), ... }
+// import.meta.glob(...) -> modules对象 -> { './locales/en.json': () => import('./locales/en.json'), ... }
+// Object.entries(...) -> 读取key-value -> [['./locales/en.json', () => import('./locales/en.json')], ...]
+// Array.map[...] -> 简化key-value -> [['en', () => import('./locales/en.json')], ...]
+// Object.fromEntries(...) -> 将key-value转换为对象 -> { en: () => import('./locales/en.json'), ... }
 const localesMap = Object.fromEntries(
-  Object.entries(import.meta.glob('../locales/*.js')).map(([path, loadLocale]) => [
-    path.match(/([\w-]*)\.js$/)?.[1],
+  Object.entries(import.meta.glob('../locales/*.json')).map(([path, loadLocale]) => [
+    path.match(/([\w-]*)\.json$/)?.[1],
     loadLocale,
   ]),
 ) as Record<Locale, () => Promise<{ default: Record<string, string> }>>
