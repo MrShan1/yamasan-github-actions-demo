@@ -12,6 +12,7 @@ import ElementPlus from 'unplugin-element-plus/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -37,6 +38,12 @@ export default defineConfig({
       symbolId: 'icon-[dir]-[name]',
     }),
     ElementPlus({}),
+    VueI18nPlugin({
+      // locale messages resource pre-compile option
+      include: path.resolve(process.cwd(), './src/locales/**'),
+      // 由于i18n.ts使用composition API，legacy为false，此处禁止修改
+      compositionOnly: true,
+    }),
   ],
   resolve: {
     alias: {

@@ -1,21 +1,13 @@
 import { createI18n } from 'vue-i18n'
+import messages from '@intlify/unplugin-vue-i18n/messages'
+
+console.log(messages)
 
 const i18n = createI18n({
   legacy: false, // you must set `false`, to use Composition API
-  locale: 'zh',
+  locale: 'zh-CN',
   fallbackLocale: 'en',
-  messages: {
-    zh: {
-      message: {
-        hello: '你好，世界',
-      },
-    },
-    en: {
-      message: {
-        hello: 'Hello, World',
-      },
-    },
-  },
+  messages,
 })
 
 export default i18n

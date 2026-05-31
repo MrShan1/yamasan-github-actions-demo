@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { Icon, addAPIProvider } from '@iconify/vue'
 import svgIcon from '../assets/icons/chuang.svg'
 import { useI18n } from 'vue-i18n'
+import { loadLocaleMessages } from '@/modules/i18n'
 
 // ------------------------------图标组件---------------------------------
 const iconRef = ref<string>('@local:mdi:123') // 初始化图标
@@ -14,17 +15,23 @@ addAPIProvider('local', {
 
 // ------------------------------国际化功能---------------------------------
 // 使用useI18n获取国际化实例
-const { t, locale } = useI18n()
+const { t } = useI18n()
+const locale = ref('zh-CN')
+watch(locale, (newVal) => {
+  loadLocaleMessages(newVal)
+})
 </script>
 
 <template>
   <div class="container px-4">
     <h3>国际化功能</h3>
-    <h1>{{ t('message.hello') }}</h1>
-    <select v-model="locale">
-      <option value="en">英文</option>
-      <option value="zh">中文</option>
-    </select>
+    <div class="flex items-center gap-2">
+      <select v-model="locale" class="border border-gray-300 rounded-md p-2">
+        <option value="en">英文</option>
+        <option value="zh-CN">中文</option>
+      </select>
+      <h1>{{ t('hello') }}</h1>
+    </div>
 
     <h3>全屏组件</h3>
     <FullScreen tag="span" style="color: blue; width: 20px; height: 20px" />
