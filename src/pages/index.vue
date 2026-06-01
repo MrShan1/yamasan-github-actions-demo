@@ -34,6 +34,7 @@ watch(locale, (newVal) => {
       <div class="ml-4 flex items-center whitespace-nowrap">
         EP组件： <el-select style="width: 100px" />
       </div>
+      <span class="ml-4">{{ t('any.thing') }}</span>
     </div>
 
     <h3>全屏组件</h3>

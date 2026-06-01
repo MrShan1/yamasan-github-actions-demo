@@ -1,10 +1,10 @@
 {
   "localesPaths": "src/locales",
-  "pathMatcher": "{locale}.js",
-  "enabledParsers": ["js"],
+  "pathMatcher": "{locale}.{ext}",
+  "enabledParsers": ["json"],
   "enabledFrameworks": ["vue"],
   "dirStructure": "file",
-  "keystyle": "flat",
+  "keystyle": "nested",
   "sourceLanguage": "en",
   "displayLanguage": "zh-CN"
 }
