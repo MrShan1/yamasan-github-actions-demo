@@ -13,9 +13,32 @@ import VueRouter from 'unplugin-vue-router/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+import fs from 'node:fs'
+
+// 读取src/locales的文件名集合，用于过滤打包文件
+const localesDir = path.resolve(process.cwd(), 'src/locales')
+const locales = fs
+  .readdirSync(localesDir)
+  .map((file) => file.toLowerCase().match(/([\w-]*)\.json$/)?.[1] || '')
+
+// 排除Element Plus中不必要的locale资源
+function excludeEpLocales(id: string) {
+  if (id.includes('element-plus/dist/locale')) {
+    const pathname = path.basename(id, '.min.mjs')
+    if (!locales.includes(pathname)) {
+      return true
+    }
+  }
+  return false
+}
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    rolldownOptions: {
+      external: excludeEpLocales,
+    },
+  },
   plugins: [
     VueRouter(),
     vue(),
