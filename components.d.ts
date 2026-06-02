@@ -13,6 +13,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DarkModeToggle: typeof import('./src/components/Theme/DarkModeToggle.vue')['default']
+    ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
@@ -25,6 +26,7 @@ declare module 'vue' {
     IconList: typeof import('./src/components/Icon/IconList.vue')['default']
     IconPicker: typeof import('./src/components/Icon/IconPicker.vue')['default']
     NetIcon: typeof import('./src/components/Icon/NetIcon.vue')['default']
+    Notification: typeof import('./src/components/Notice/Notification.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/Icon/SvgIcon.vue')['default']
@@ -34,6 +36,7 @@ declare module 'vue' {
 // For TSX support
 declare global {
   const DarkModeToggle: typeof import('./src/components/Theme/DarkModeToggle.vue')['default']
+  const ElBadge: typeof import('element-plus/es')['ElBadge']
   const ElButton: typeof import('element-plus/es')['ElButton']
   const ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
   const ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
@@ -46,6 +49,7 @@ declare global {
   const IconList: typeof import('./src/components/Icon/IconList.vue')['default']
   const IconPicker: typeof import('./src/components/Icon/IconPicker.vue')['default']
   const NetIcon: typeof import('./src/components/Icon/NetIcon.vue')['default']
+  const Notification: typeof import('./src/components/Notice/Notification.vue')['default']
   const RouterLink: typeof import('vue-router')['RouterLink']
   const RouterView: typeof import('vue-router')['RouterView']
   const SvgIcon: typeof import('./src/components/Icon/SvgIcon.vue')['default']

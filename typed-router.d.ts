@@ -51,6 +51,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/notice-message': RouteRecordInfo<
+      '/notice-message',
+      '/notice-message',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -85,6 +92,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/ep-icon-picker.vue': {
       routes:
         | '/ep-icon-picker'
+      views:
+        | never
+    }
+    'src/pages/notice-message.vue': {
+      routes:
+        | '/notice-message'
       views:
         | never
     }
