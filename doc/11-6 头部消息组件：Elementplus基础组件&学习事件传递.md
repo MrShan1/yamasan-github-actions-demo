@@ -1,4 +1,4 @@
-# Elementplus基础组件&学习事件传递
+# 头部消息组件：Elementplus基础组件&学习事件传递
 
 ## 扩展基础组件Badge，自定义属性
 
@@ -14,7 +14,7 @@
 
 
 
-## 使用缩放控制badge尺寸
+## 使用缩放控制Badge尺寸
 
 使用font-size控制badge尺寸是有极限的，小于12px不生效
 
@@ -28,3 +28,30 @@
 
 在notice-message.vue中，测试scale变化时，Badge的缩放是否正确
 
+
+
+## 弹出列表样式
+
+准备实现功能完整的业务消息组件，包括消息提示 + 消息列表弹出
+
+创建业务消息组件Notice.vue、消息列表组件NoticeMessageList.vue
+
+初步实现消息列表组件组件
+
+- 编写NoticeMessageList.vue结构，主要包括el-tabs + el-button-group
+- el-tabs包含若干个el-tab-panel，显示不同类型的消息
+- el-button-group包含两个按钮：清空、更多，为按钮添加对应的图标
+
+初步实现业务消息组件
+
+- 编写Notice.vue结构，包括Notification + NoticeMessageList
+- 使用el-dropdown实现消息弹出，触发方式为click
+- 提取Notification的类型到单独的.d.ts文件，方便导入业务消息组件
+
+在notice-message.vue中引入Notice，测试功能
+
+完善NoticeMessageList的el-tab-panel，搭建内容结构
+
+- 使用el-row和el-col进行布局
+- 使用el-avatar显示头像
+- 使用el-tag显示消息标记

@@ -26,5 +26,6 @@ const scale = ref(0.8)
       />
       <span>{{ scale }}</span>
     </div>
+    <Notice class="mt-4" />
   </div>
 </template>
