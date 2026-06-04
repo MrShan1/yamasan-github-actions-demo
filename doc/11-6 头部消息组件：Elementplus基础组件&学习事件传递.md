@@ -88,3 +88,11 @@
 优化传递给Notification的props，使用解构赋值避免不必要的参数传递
 
 将Notice的相关ts定义转移至.d.ts文件中，方便引用
+
+
+
+## CSS中的v-bind
+
+优化js变量传递到scoped style的方式，改为使用CSS中的v-bind。自定义style变量+样式透传 的方式不方便，比较冗余。
+
+v-bind中不能使用var()表达式，可以先在js中定义computed，后将computed传递给v-bind

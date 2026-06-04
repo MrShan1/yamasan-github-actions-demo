@@ -24,10 +24,12 @@ function calculateTransform(scale: number) {
     minTranslateX + ((maxTranslateX - minTranslateX) * (scale - minScale)) / (maxScale - minScale)
 
   // 返回完整的transform属性
-  return `translateY(-50%) translateX(${translateX}%) scale(${scale})`
+  // return `translateY(-50%) translateX(${translateX}%) scale(${scale})`
+  return `${translateX}%`
 }
 
-const transformData = computed(() => calculateTransform(props.scale))
+const translateX = computed(() => calculateTransform(props.scale))
+const fontSize = computed(() => `${props.size}px`)
 </script>
 
 <template>
@@ -40,11 +42,8 @@ const transformData = computed(() => calculateTransform(props.scale))
   ></el-badge>-->
 
   <!-- 新版样式绑定参数color和size -->
-  <el-badge
-    :value="value"
-    :color="color"
-    :badge-style="{ fontSize: `${size}px`, transform: transformData }"
-  >
+  <!-- <el-badge :value="value" :color="color" :badge-style="{ fontSize: `${size}px`, transform: transformData }"> -->
+  <el-badge :value="value" :color="color">
     <Icon
       :icon="icon"
       :color="iconColor"
@@ -63,4 +62,9 @@ const transformData = computed(() => calculateTransform(props.scale))
 //   background-color: @color;
 //   font-size: @size;
 // }
+
+:deep(.el-badge__content) {
+  font-size: v-bind(fontSize);
+  transform: translateY(-50%) translateX(v-bind(translateX)) scale(v-bind(scale));
+}
 </style>
