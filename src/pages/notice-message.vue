@@ -1,7 +1,6 @@
 <script setup lang="tsx">
 import { ref } from 'vue'
-import Iconify from '@/components/Icon/Iconify.vue'
-import type { AvatarProps } from 'element-plus'
+import type { AvatarProps, TabsPaneContext } from 'element-plus'
 import type { MessageListItem } from '@/components/Notice/types'
 
 const scale = ref(0.8)
@@ -10,7 +9,6 @@ const avartarUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1e
 
 const lists = ref([
   {
-    name: 'message',
     title: '消息',
     contents: [
       {
@@ -37,7 +35,6 @@ const lists = ref([
     ],
   },
   {
-    name: 'system',
     title: '系统',
     contents: [
       {
@@ -50,14 +47,14 @@ const lists = ref([
 const actions = ref([
   {
     title: '清空',
-    icon: () => <Iconify icon="ep:delete" />,
+    icon: 'ep:delete',
     click: () => {
       console.log('清空')
     },
   },
   {
     title: '更多',
-    icon: () => <Iconify icon="ep:more" />,
+    icon: 'ep:more',
     click: () => {
       console.log('更多')
     },
@@ -70,6 +67,10 @@ function handleAvatarClick(avatar: AvatarProps) {
 
 function handleItemClick(item: MessageListItem) {
   console.log(item)
+}
+
+function handleTabClick(pane: TabsPaneContext, ev: Event) {
+  console.log(pane, ev)
 }
 </script>
 
@@ -100,8 +101,10 @@ function handleItemClick(item: MessageListItem) {
       :value="12"
       :lists="lists"
       :actions="actions"
+      wrapClass="w-100"
       @avatarClick="handleAvatarClick"
       @itemClick="handleItemClick"
+      @tabClick="handleTabClick"
     />
   </div>
 </template>

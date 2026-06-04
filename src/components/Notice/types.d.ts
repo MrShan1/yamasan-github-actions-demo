@@ -1,4 +1,4 @@
-import type { BadgeProps, AvatarProps, TagProps } from 'element-plus'
+import type { BadgeProps, AvatarProps, TagProps, TabsPaneContext } from 'element-plus'
 import type { IconProps } from '@iconify/vue'
 
 export interface NotificationProps extends Partial<BadgeProps> {
@@ -20,20 +20,28 @@ export interface MessageListItem {
 }
 
 export interface NoticeMessageListOptions {
-  name: string
   title: string
   contents?: MessageListItem[]
 }
 
-export interface NoticeActionItem {
+export interface NoticeActionItem extends IconProps {
   title: string
-  icon?: IconProps
+  color?: string
+  style?: CSSProperties
   click: () => void
 }
 
 export interface NoticeMessageListProps {
   lists: NoticeMessageListOptions[]
   actions: NoticeActionItem[]
+  wrapClass?: string
+  wrapStyle?: CSSProperties
+}
+
+export interface NoticeMessageListEmits {
+  avatarClick: [avatar?: AvatarProps]
+  itemClick: [item: MessageListItem]
+  tabClick: [pane: TabsPaneContext, event: Event]
 }
 
 export interface NoticeProps extends NoticeMessageListProps, NotificationProps {}

@@ -1,16 +1,19 @@
 <script setup lang="tsx">
 import { ref } from 'vue'
-import type { AvatarProps } from 'element-plus'
-import type { NoticeMessageListProps, MessageListItem } from './types'
+import type { AvatarProps, TabsPaneContext } from 'element-plus'
+import type {
+  NoticeMessageListProps,
+  MessageListItem,
+  NoticeActionItem,
+  NoticeMessageListEmits,
+} from './types'
+import Iconify from '@/components/Icon/Iconify.vue'
 
 const props = defineProps<NoticeMessageListProps>()
 
-const emit = defineEmits<{
-  avatarClick: [avatar?: AvatarProps]
-  itemClick: [item: MessageListItem]
-}>()
+const emit = defineEmits<NoticeMessageListEmits>()
 
-function handleAvatarClick(avatar: AvatarProps) {
+function handleAvatarClick(avatar?: AvatarProps) {
   emit('avatarClick', avatar)
 }
 
@@ -18,17 +21,23 @@ function handleItemClick(item: MessageListItem) {
   emit('itemClick', item)
 }
 
-const activeName = ref(props.lists[0]?.name)
+function handleTabClick(pane: TabsPaneContext, ev: Event) {
+  emit('tabClick', pane, ev)
+}
 
-// const ClearAllIcon = () => <Iconify icon="ep:delete" />
-// const MoreIcon = () => <Iconify icon="ep:more" />
+// 渲染图标
+function renderIcon(action: NoticeActionItem) {
+  return <Iconify icon={action.icon} color={action.color} style={action.style} />
+}
+
+const activeName = ref(props.lists[0]?.title)
 </script>
 
 <template>
-  <div class="px-4 pb-4 pt-2 w-100">
+  <div class="px-4 pb-4 pt-2">
     <!-- 消息标签页列表 -->
-    <el-tabs v-model="activeName">
-      <el-tab-pane v-for="list in lists" :key="list.name" :label="list.title" :name="list.name">
+    <el-tabs v-model="activeName" :class="wrapClass" :style="wrapStyle" @tab-click="handleTabClick">
+      <el-tab-pane v-for="list in lists" :key="list.title" :label="list.title" :name="list.title">
         <!-- 消息列表 -->
         <ul v-if="list.contents">
           <li v-for="item in list.contents" :key="item.title" class="mb-2">
@@ -73,7 +82,7 @@ const activeName = ref(props.lists[0]?.name)
       <el-button
         v-for="action in actions"
         :key="action.title"
-        :icon="action.icon"
+        :icon="renderIcon(action)"
         class="flex-1"
         @click="action.click"
         >{{ action.title }}</el-button

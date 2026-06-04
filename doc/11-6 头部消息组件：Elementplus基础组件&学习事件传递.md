@@ -96,3 +96,19 @@
 优化js变量传递到scoped style的方式，改为使用CSS中的v-bind。自定义style变量+样式透传 的方式不方便，比较冗余。
 
 v-bind中不能使用var()表达式，可以先在js中定义computed，后将computed传递给v-bind
+
+
+
+## 测试组件事件与属性
+
+调整interface设计，部分改为partial
+
+调整icon传递，用户只传递图标名即可，可额外传递color和style，内部设计需要改造
+
+调整tabs的传递数据，title与name用一个就好
+
+添加tabs的样式传递，在props上添加wrapClass和wrapStyle
+
+添加tabClick、avatarClick、itemClick的事件透传，并尝试实现TS类型提示
+
+使用v-on="{...}"统一绑定事件，将所有事件添加到对象中再绑定
