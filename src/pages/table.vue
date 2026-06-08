@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import VTable from '@/components/Table/VTable.vue'
+import { VTable } from '@/components'
 import type { TableColumnType } from '@/components/Table/types'
 
 const columns = [

@@ -11,11 +11,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { VTableProps } from './types'
+import type { VTablePropsBase } from './types'
 
 defineOptions({ inheritAttrs: false })
 
-const props = withDefaults(defineProps<VTableProps>(), {
+const props = withDefaults(defineProps<VTablePropsBase>(), {
   pagination: () => ({
     align: 'right',
     layout: 'total, sizes, prev, pager, next, jumper',
