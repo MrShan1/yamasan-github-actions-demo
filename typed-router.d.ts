@@ -58,6 +58,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/table': RouteRecordInfo<
+      '/table',
+      '/table',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -98,6 +105,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/notice-message.vue': {
       routes:
         | '/notice-message'
+      views:
+        | never
+    }
+    'src/pages/table.vue': {
+      routes:
+        | '/table'
       views:
         | never
     }

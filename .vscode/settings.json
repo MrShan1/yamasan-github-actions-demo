@@ -1,0 +1,25 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "tsconfig.json": "tsconfig.*.json, env.d.ts, typed-router.d.ts",
+    "vite.config.*": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*",
+    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .oxlint*, oxlint*, .oxfmt*, .prettier*, prettier*, .editorconfig"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "i18n-ally.localesPaths": ["src/locales"],
+  "i18n-ally.enabledFrameworks": ["vue"],
+  "i18n-ally.dirStructure": "file",
+  "i18n-ally.pathMatcher": "{locale}.{ext}",
+  "i18n-ally.enabledParsers": ["js", "ts", "json"],
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.sourceLanguage": "en",
+  "i18n-ally.displayLanguage": "zh-CN",
+  "i18n-ally.translate.engines": ["baidu"],
+  "i18n-ally.translate.baidu.apiSecret": "NV_gJSK74AB15PIFAVMh",
+  "i18n-ally.translate.baidu.appid": "20251006002469674"
+}
