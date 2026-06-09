@@ -1,9 +1,23 @@
 <template>
   <div>
     <el-table v-bind="$attrs" style="width: 100%">
-      <el-table-column v-for="column in columns" :key="column.prop" v-bind="column" />
+      <el-table-column v-for="column in columns" :key="column.prop" v-bind="column">
+        <template #default="scope" v-if="column.defaultSlot">
+          <component :is="column.defaultSlot" v-bind="scope" />
+        </template>
+        <template #header="scope" v-if="column.headerSlot">
+          <component :is="column.headerSlot" v-bind="scope" />
+        </template>
+      </el-table-column>
+      <slot />
+      <template #append>
+        <slot name="append" />
+      </template>
+      <template #empty>
+        <slot name="empty" />
+      </template>
     </el-table>
-    <div :class="['p-2 flex', paginationClass]">
+    <div v-if="pagination" :class="['p-2 flex', paginationClass]">
       <el-pagination v-bind="paginationProps" />
     </div>
   </div>
