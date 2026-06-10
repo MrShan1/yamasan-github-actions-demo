@@ -46,6 +46,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/Icon/SvgIcon.vue')['default']
     VTable: typeof import('./src/components/Table/VTable.vue')['default']
+    VTableColumn: typeof import('./src/components/Table/VTableColumn.vue')['default']
   }
 }
 
@@ -85,4 +86,5 @@ declare global {
   const RouterView: typeof import('vue-router')['RouterView']
   const SvgIcon: typeof import('./src/components/Icon/SvgIcon.vue')['default']
   const VTable: typeof import('./src/components/Table/VTable.vue')['default']
+  const VTableColumn: typeof import('./src/components/Table/VTableColumn.vue')['default']
 }

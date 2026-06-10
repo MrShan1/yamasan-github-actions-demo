@@ -1,14 +1,14 @@
 <template>
   <div>
-    <el-table v-bind="$attrs" style="width: 100%">
-      <el-table-column v-for="column in columns" :key="column.prop" v-bind="column">
+    <el-table v-bind="$attrs">
+      <VTableColumn v-for="column in columns" :key="column.prop" v-bind="column">
         <template #default="scope" v-if="column.defaultSlot">
           <component :is="column.defaultSlot" v-bind="scope" />
         </template>
         <template #header="scope" v-if="column.headerSlot">
           <component :is="column.headerSlot" v-bind="scope" />
         </template>
-      </el-table-column>
+      </VTableColumn>
       <slot />
       <template #append>
         <slot name="append" />
@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { VTablePropsBase } from './types'
+import { VTableColumn } from '@/components'
 
 defineOptions({ inheritAttrs: false })
 

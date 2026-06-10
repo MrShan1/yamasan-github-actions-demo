@@ -1,5 +1,31 @@
 <template>
   <div class="p-4">
+    <p>多级表头：JSON配置法</p>
+    <VTable :columns="columns2Nested" :data="tableData2" />
+    <p>多级表头：模板配置法</p>
+    <VTable :columns="[]" :data="tableData2">
+      <el-table-column prop="date" label="Date" width="150" />
+      <el-table-column label="Delivery Info">
+        <el-table-column prop="name" label="Name" width="120" />
+        <el-table-column label="Address Info">
+          <el-table-column prop="state" label="State" width="120" />
+          <el-table-column prop="city" label="City" width="120" />
+          <el-table-column prop="address" label="Address" />
+          <el-table-column prop="zip" label="Zip" width="120" />
+        </el-table-column>
+      </el-table-column>
+    </VTable>
+    <p>流体高度</p>
+    <VTable :columns="columns2WithSlots" :data="tableData2" style="width: 100%" max-height="250" />
+    <el-button class="mt-2" style="width: 100%" @click="onAddItem"> Add Item </el-button>
+    <p>固定列和表头</p>
+    <VTable
+      :columns="columns2"
+      :data="[...tableData2, ...tableData2]"
+      height="200"
+      className="w-1/2!"
+    >
+    </VTable>
     <p>固定列2：使用table-column插槽</p>
     <VTable :columns="columnsWithSlots" :data="tableData"></VTable>
     <p>固定列1：使用table插槽</p>
@@ -41,9 +67,11 @@
 
 <script setup lang="tsx">
 import { VTable } from '@/components'
-import type { TableColumnType } from '@/components/Table/types'
+import type { VTableColumnProps } from '@/components/Table/types'
+import { ref } from 'vue'
+import dayjs from 'dayjs'
 
-const columns = [
+const columns: VTableColumnProps[] = [
   {
     prop: 'date',
     label: 'Date',
@@ -57,9 +85,9 @@ const columns = [
     label: 'Address',
     // width: 200,
   },
-] as TableColumnType[]
+]
 
-const tableData = [
+const tableData: any[] = [
   {
     date: '2016-05-03',
     name: 'Tom1',
@@ -99,7 +127,7 @@ const handleEdit = (row: any) => {
   console.log(`Edit info of ${row.name}`)
 }
 
-const columnsWithSlots = [
+const columnsWithSlots: VTableColumnProps[] = [
   ...columns,
   {
     prop: '',
@@ -112,12 +140,158 @@ const columnsWithSlots = [
           Detail
         </el-button>
         <el-button link type="primary" size="small" onClick={() => handleEdit(row)}>
-          Edit
+          Edit1
         </el-button>
       </>
     ),
   },
-] as TableColumnType[]
+]
+
+// ---------- 流体高度 ----------
+const now = new Date()
+
+const columns2: VTableColumnProps[] = [
+  {
+    prop: 'date',
+    label: 'Date',
+    fixed: true,
+    width: 150,
+  },
+  {
+    prop: 'name',
+    label: 'Name',
+    width: 120,
+  },
+  {
+    prop: 'state',
+    label: 'State',
+    width: 120,
+  },
+  {
+    prop: 'city',
+    label: 'City',
+    width: 120,
+  },
+  {
+    prop: 'address',
+    label: 'Address',
+    // width: 600,
+    width: 1200,
+  },
+  {
+    prop: 'zip',
+    label: 'Zip',
+    width: 120,
+  },
+]
+
+const tableData2 = ref<any[]>([
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    state: 'California',
+    city: 'Los Angeles',
+    address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    state: 'California',
+    city: 'Los Angeles',
+    address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+  },
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    state: 'California',
+    city: 'Los Angeles',
+    address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+  },
+])
+
+const columns2WithSlots: VTableColumnProps[] = [
+  ...columns2,
+  {
+    prop: '',
+    label: 'Operations',
+    fixed: 'right',
+    width: 120,
+    defaultSlot: ({ row, index }: { row: any; index: number }) => (
+      <>
+        <el-button link type="primary" size="small" onClick={() => deleteRow(index)}>
+          Remove
+        </el-button>
+      </>
+    ),
+  },
+]
+
+const deleteRow = (index: number) => {
+  tableData2.value.splice(index, 1)
+}
+
+const onAddItem = () => {
+  now.setDate(now.getDate() + 1)
+  tableData2.value.push({
+    date: dayjs(now).format('YYYY-MM-DD'),
+    name: 'Tom',
+    state: 'California',
+    city: 'Los Angeles',
+    address: 'No. 189, Grove St, Los Angeles',
+    zip: 'CA 90036',
+  })
+}
+
+// ---------- 多级表头：JSON配置法 ----------
+const columns2Nested: VTableColumnProps[] = [
+  {
+    prop: 'date',
+    label: 'Date',
+    fixed: true,
+    width: 150,
+  },
+  {
+    prop: '',
+    label: 'Delivery Info',
+    children: [
+      {
+        prop: 'name',
+        label: 'Name',
+        width: 120,
+      },
+      {
+        prop: '',
+        label: 'Address Info',
+        children: [
+          {
+            prop: 'state',
+            label: 'State',
+            width: 120,
+          },
+          {
+            prop: 'city',
+            label: 'City',
+            width: 120,
+          },
+          {
+            prop: 'address',
+            label: 'Address',
+            // width: 600,
+            // width: 1200,
+          },
+          {
+            prop: 'zip',
+            label: 'Zip',
+            width: 120,
+          },
+        ],
+      },
+    ],
+  },
+]
 </script>
 
 <style scoped lang="less">
