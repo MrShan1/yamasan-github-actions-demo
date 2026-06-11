@@ -1,5 +1,14 @@
-import type { PaginationProps, TableProps, TableColumnCtx } from 'element-plus'
-import type { Component } from 'vue'
+import type {
+  PaginationProps,
+  TableProps,
+  TableColumnCtx,
+  TableSortOrder,
+  ElTable,
+} from 'element-plus'
+import type { Component, DefineComponent } from 'vue'
+import type { TableEmits } from './polyfill'
+
+// =====================VTableColumn=========================
 
 export interface VTableColumnPropsBase {
   defaultSlot?: Component
@@ -10,6 +19,10 @@ export interface VTableColumnPropsBase {
 export interface VTableColumnProps extends VTableColumnPropsBase, Partial<TableColumnCtx<any>> {
   children?: VTableColumnProps[]
 }
+
+export type VTableColumnType = DefineComponent<VTableColumnProps>
+
+// =====================VTable=========================
 
 export interface PaginationType extends Partial<PaginationProps> {
   align?: 'left' | 'center' | 'right'
@@ -30,3 +43,6 @@ export interface VTablePropsBase {
 
 // 表格组件的props类型宽定义，包含el-table的属性
 export interface VTableProps extends VTablePropsBase, Partial<TableProps<any>> {}
+
+export type VTableEmits = Record<keyof TableEmits, any>
+export type VTableType = DefineComponent<VTableProps, {}, {}, {}, {}, {}, {}, VTableEmits>

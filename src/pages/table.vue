@@ -1,5 +1,7 @@
 <template>
   <div class="p-4">
+    <p>单选</p>
+    <VTable :columns="columns" :data="tableData" highlight-current-row />
     <p>多级表头：JSON配置法</p>
     <VTable :columns="columns2Nested" :data="tableData2" />
     <p>多级表头：模板配置法</p>
@@ -70,6 +72,7 @@ import { VTable } from '@/components'
 import type { VTableColumnProps } from '@/components/Table/types'
 import { ref } from 'vue'
 import dayjs from 'dayjs'
+import type { VTableType } from '@/components/Table/types'
 
 const columns: VTableColumnProps[] = [
   {
