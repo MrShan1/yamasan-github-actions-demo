@@ -1,5 +1,24 @@
 <template>
   <el-tabs class="p-4">
+    <el-tab-pane label="筛选">
+      <VTable
+        :columns="filterableColumns"
+        :data="filterTableData"
+        row-key="date"
+        ref="filterTableRef"
+      />
+      <div class="mt-2">
+        <el-button @click="resetDateFilter">重置日期筛选</el-button>
+        <el-button @click="clearFilter">重置所有筛选</el-button>
+      </div>
+    </el-tab-pane>
+    <el-tab-pane label="排序">
+      <VTable
+        :columns="sortableColumns"
+        :data="tableData"
+        :default-sort="{ prop: 'date', order: 'descending' }"
+      />
+    </el-tab-pane>
     <el-tab-pane label="多选">
       <VTable
         ref="multipleTableRef"
@@ -232,7 +251,131 @@ const toggleSelection = (rows?: User[], ignoreSelectable?: boolean) => {
     multipleTableRef.value!.table?.clearSelection()
   }
 }
+
 const handleSelectionChange = (val: User[]) => {
   multipleSelection.value = val
+}
+
+// ---------- 排序 ----------
+const sortableColumns: VTableColumnProps[] = [
+  {
+    prop: 'date',
+    label: 'Date',
+    width: 180,
+    sortable: true,
+  },
+  {
+    prop: 'name',
+    label: 'Name',
+    width: 180,
+    sortable: true,
+  },
+  {
+    prop: 'address',
+    label: 'Address',
+    formatter: (row: any) => {
+      return row.address
+    },
+  },
+]
+
+// ---------- 筛选 ----------
+interface FilterUser {
+  date: string
+  name: string
+  address: string
+  tag: string
+}
+
+const filterTableRef = ref<VTableInstance>()
+
+const filterTableData: FilterUser[] = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'Home',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'Office',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'Home',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'Office',
+  },
+]
+
+const filterableColumns: VTableColumnProps<FilterUser>[] = [
+  {
+    prop: 'date',
+    label: 'Date',
+    width: 180,
+    sortable: true,
+    columnKey: 'date',
+    filters: [
+      { text: '2016-05-01', value: '2016-05-01' },
+      { text: '2016-05-02', value: '2016-05-02' },
+      { text: '2016-05-03', value: '2016-05-03' },
+      { text: '2016-05-04', value: '2016-05-04' },
+    ],
+    filterMethod: (value: string, row: FilterUser, column: VTableColumnProps<FilterUser>) => {
+      const property = column['property'] as unknown as keyof FilterUser
+      if (property) {
+        return row[property] === value
+      }
+      return true
+    },
+  },
+  {
+    prop: 'name',
+    label: 'Name',
+    width: 180,
+  },
+  {
+    prop: 'address',
+    label: 'Address',
+    formatter: (row: FilterUser) => {
+      return row.address
+    },
+  },
+  {
+    prop: 'tag',
+    label: 'Tag',
+    width: 100,
+    filters: [
+      { text: 'Home', value: 'Home' },
+      { text: 'Office', value: 'Office' },
+    ],
+    filterMethod: (value: string, row: FilterUser) => {
+      return row.tag === value
+    },
+    filterPlacement: 'bottom-end', // 过滤弹出框的定位在右下角
+    defaultSlot: ({ row }: { row: FilterUser }) => (
+      <>
+        <el-tag type={row.tag === 'Home' ? 'primary' : 'success'} disable-transitions>
+          {row.tag}
+        </el-tag>
+      </>
+    ),
+  },
+]
+
+const resetDateFilter = () => {
+  filterTableRef.value!.table?.clearFilter(['date'])
+}
+
+const clearFilter = () => {
+  filterTableRef.value!.table?.clearFilter()
 }
 </script>

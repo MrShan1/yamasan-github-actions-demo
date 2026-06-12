@@ -19,11 +19,12 @@ export interface VTableColumnPropsBase {
   children?: VTableColumnPropsBase[]
 }
 
-export interface VTableColumnProps extends VTableColumnPropsBase, Partial<TableColumnCtx<any>> {
-  children?: VTableColumnProps[]
+export interface VTableColumnProps<T = any>
+  extends VTableColumnPropsBase, Partial<TableColumnCtx<T>> {
+  children?: VTableColumnProps<T>[]
 }
 
-export type VTableColumnType = DefineComponent<VTableColumnProps>
+export type VTableColumnType<T = any> = DefineComponent<VTableColumnProps<T>>
 
 // =====================VTable=========================
 
