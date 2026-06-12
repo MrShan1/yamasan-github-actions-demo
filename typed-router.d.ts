@@ -65,6 +65,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/table-select': RouteRecordInfo<
+      '/table-select',
+      '/table-select',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -111,6 +118,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/table.vue': {
       routes:
         | '/table'
+      views:
+        | never
+    }
+    'src/pages/table-select.vue': {
+      routes:
+        | '/table-select'
       views:
         | never
     }

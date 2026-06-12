@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table v-bind="$attrs">
+    <el-table v-bind="$attrs" ref="tableRef">
       <VTableColumn v-for="column in columns" :key="column.prop" v-bind="column">
         <template #default="scope" v-if="column.defaultSlot">
           <component :is="column.defaultSlot" v-bind="scope" />
@@ -24,21 +24,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { VTablePropsBase } from './types'
 import { VTableColumn } from '@/components'
+import type { TableInstance } from 'element-plus'
 
 defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<VTablePropsBase>(), {
-  pagination: () => ({
-    align: 'right',
-    layout: 'total, sizes, prev, pager, next, jumper',
-    total: 0,
-    pageSizes: [10, 20, 30, 40, 50, 100],
-    defaultPageSize: 10,
-    defaultCurrentPage: 1,
-  }),
+  // pagination: () => ({
+  //   align: 'right',
+  //   layout: 'total, sizes, prev, pager, next, jumper',
+  //   total: 0,
+  //   pageSizes: [10, 20, 30, 40, 50, 100],
+  //   defaultPageSize: 10,
+  //   defaultCurrentPage: 1,
+  // }),
 })
 
 const paginationClass = computed(() => {
@@ -55,7 +56,13 @@ const paginationClass = computed(() => {
 })
 
 const paginationProps = computed(() => {
-  const { align, ...restProps } = props.pagination
+  const { align, ...restProps } = props.pagination || {}
   return restProps
+})
+
+const tableRef = ref<TableInstance>()
+
+defineExpose({
+  table: tableRef,
 })
 </script>

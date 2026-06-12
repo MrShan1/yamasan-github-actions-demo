@@ -1,70 +1,87 @@
 <template>
-  <div class="p-4">
-    <p>单选</p>
-    <VTable :columns="columns" :data="tableData" highlight-current-row />
-    <p>多级表头：JSON配置法</p>
-    <VTable :columns="columns2Nested" :data="tableData2" />
-    <p>多级表头：模板配置法</p>
-    <VTable :columns="[]" :data="tableData2">
-      <el-table-column prop="date" label="Date" width="150" />
-      <el-table-column label="Delivery Info">
-        <el-table-column prop="name" label="Name" width="120" />
-        <el-table-column label="Address Info">
-          <el-table-column prop="state" label="State" width="120" />
-          <el-table-column prop="city" label="City" width="120" />
-          <el-table-column prop="address" label="Address" />
-          <el-table-column prop="zip" label="Zip" width="120" />
+  <el-tabs class="p-4">
+    <el-tab-pane label="多级表头：JSON配置法">
+      <VTable :columns="columns2Nested" :data="tableData2" />
+    </el-tab-pane>
+    <el-tab-pane label="多级表头：模板配置法">
+      <VTable :columns="[]" :data="tableData2">
+        <el-table-column prop="date" label="Date" width="150" />
+        <el-table-column label="Delivery Info">
+          <el-table-column prop="name" label="Name" width="120" />
+          <el-table-column label="Address Info">
+            <el-table-column prop="state" label="State" width="120" />
+            <el-table-column prop="city" label="City" width="120" />
+            <el-table-column prop="address" label="Address" />
+            <el-table-column prop="zip" label="Zip" width="120" />
+          </el-table-column>
         </el-table-column>
-      </el-table-column>
-    </VTable>
-    <p>流体高度</p>
-    <VTable :columns="columns2WithSlots" :data="tableData2" style="width: 100%" max-height="250" />
-    <el-button class="mt-2" style="width: 100%" @click="onAddItem"> Add Item </el-button>
-    <p>固定列和表头</p>
-    <VTable
-      :columns="columns2"
-      :data="[...tableData2, ...tableData2]"
-      height="200"
-      className="w-1/2!"
-    >
-    </VTable>
-    <p>固定列2：使用table-column插槽</p>
-    <VTable :columns="columnsWithSlots" :data="tableData"></VTable>
-    <p>固定列1：使用table插槽</p>
-    <VTable :columns="columns" :data="tableData">
-      <template #default>
-        <el-table-column fixed="right" label="Operations" width="120">
-          <template #default="{ row, column, $index }">
-            <el-button link type="primary" size="small" @click="handleClick(row)">Detail</el-button>
-            <el-button link type="primary" size="small" @click="handleEdit(row)">Edit</el-button>
-          </template>
-        </el-table-column>
-      </template>
-      <template #append>
-        <el-button type="primary" size="small" class="m-2">添加行</el-button>
-      </template>
-    </VTable>
-    <p>固定表头</p>
-    <VTable :columns="columns" :data="[...tableData, ...tableData]" height="200"></VTable>
-    <p>显示溢出工具提示的表格</p>
-    <VTable :columns="columns" :data="tableData">
-      <el-table-column
-        prop="address"
-        label="测试溢出工具提示"
-        show-overflow-tooltip
-        width="200"
-        className="text-red-500 font-bold"
-      ></el-table-column>
-    </VTable>
-    <p>带状态表格</p>
-    <VTable :columns="columns" :data="tableData" :row-class-name="rowClassName" />
-    <p>带边框表格</p>
-    <VTable :columns="columns" :data="tableData" border />
-    <p>带斑马纹表格</p>
-    <VTable :columns="columns" :data="tableData" stripe />
-    <p>基础表格</p>
-    <VTable :columns="columns" :data="tableData" />
-  </div>
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="流体高度">
+      <VTable
+        :columns="columns2WithSlots"
+        :data="tableData2"
+        style="width: 100%"
+        max-height="250"
+      />
+      <el-button class="mt-2" style="width: 100%" @click="onAddItem"> Add Item </el-button>
+    </el-tab-pane>
+    <el-tab-pane label="固定列和表头">
+      <VTable
+        :columns="columns2"
+        :data="[...tableData2, ...tableData2]"
+        height="200"
+        className="w-1/2!"
+      >
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="固定列2：使用table-column插槽">
+      <VTable :columns="columnsWithSlots" :data="tableData"></VTable>
+    </el-tab-pane>
+    <el-tab-pane label="固定列1：使用table插槽">
+      <VTable :columns="columns" :data="tableData">
+        <template #default>
+          <el-table-column fixed="right" label="Operations" width="120">
+            <template #default="{ row, column, $index }">
+              <el-button link type="primary" size="small" @click="handleClick(row)"
+                >Detail</el-button
+              >
+              <el-button link type="primary" size="small" @click="handleEdit(row)">Edit</el-button>
+            </template>
+          </el-table-column>
+        </template>
+        <template #append>
+          <el-button type="primary" size="small" class="m-2">添加行</el-button>
+        </template>
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="固定表头">
+      <VTable :columns="columns" :data="[...tableData, ...tableData]" height="200"></VTable>
+    </el-tab-pane>
+    <el-tab-pane label="显示溢出工具提示的表格">
+      <VTable :columns="columns" :data="tableData">
+        <el-table-column
+          prop="address"
+          label="测试溢出工具提示"
+          show-overflow-tooltip
+          width="200"
+          className="text-red-500 font-bold"
+        ></el-table-column>
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="带状态表格">
+      <VTable :columns="columns" :data="tableData" :row-class-name="rowClassName" />
+    </el-tab-pane>
+    <el-tab-pane label="带边框表格">
+      <VTable :columns="columns" :data="tableData" border />
+    </el-tab-pane>
+    <el-tab-pane label="带斑马纹表格">
+      <VTable :columns="columns" :data="tableData" stripe />
+    </el-tab-pane>
+    <el-tab-pane label="基础表格">
+      <VTable :columns="columns" :data="tableData" :pagination="pagination" />
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script setup lang="tsx">
@@ -72,7 +89,15 @@ import { VTable } from '@/components'
 import type { VTableColumnProps } from '@/components/Table/types'
 import { ref } from 'vue'
 import dayjs from 'dayjs'
-import type { VTableType } from '@/components/Table/types'
+
+const pagination = ref({
+  align: 'right' as const,
+  layout: 'total, sizes, prev, pager, next, jumper',
+  total: 0,
+  pageSizes: [10, 20, 30, 40, 50, 100],
+  defaultPageSize: 10,
+  defaultCurrentPage: 1,
+})
 
 const columns: VTableColumnProps[] = [
   {
@@ -139,10 +164,26 @@ const columnsWithSlots: VTableColumnProps[] = [
     width: 120,
     defaultSlot: ({ row }: { row: any }) => (
       <>
-        <el-button link type="primary" size="small" onClick={() => handleClick(row)}>
+        <el-button
+          link
+          type="primary"
+          size="small"
+          onClick={(e: MouseEvent) => {
+            e.preventDefault()
+            handleClick(row)
+          }}
+        >
           Detail
         </el-button>
-        <el-button link type="primary" size="small" onClick={() => handleEdit(row)}>
+        <el-button
+          link
+          type="primary"
+          size="small"
+          onClick={(e: MouseEvent) => {
+            e.preventDefault()
+            handleEdit(row)
+          }}
+        >
           Edit1
         </el-button>
       </>
@@ -224,7 +265,15 @@ const columns2WithSlots: VTableColumnProps[] = [
     width: 120,
     defaultSlot: ({ row, index }: { row: any; index: number }) => (
       <>
-        <el-button link type="primary" size="small" onClick={() => deleteRow(index)}>
+        <el-button
+          link
+          type="primary"
+          size="small"
+          onClick={(e: MouseEvent) => {
+            e.preventDefault()
+            deleteRow(index)
+          }}
+        >
           Remove
         </el-button>
       </>

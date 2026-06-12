@@ -4,9 +4,12 @@ import type {
   TableColumnCtx,
   TableSortOrder,
   ElTable,
+  TableInstance,
 } from 'element-plus'
-import type { Component, DefineComponent } from 'vue'
+import type { Component, DefineComponent, ComponentPublicInstance, Ref } from 'vue'
 import type { TableEmits } from './polyfill'
+import type { ComponentEmit, ComponentExposed } from 'vue-component-type-helpers'
+import VTable from './VTable.vue'
 
 // =====================VTableColumn=========================
 
@@ -44,5 +47,15 @@ export interface VTablePropsBase {
 // 表格组件的props类型宽定义，包含el-table的属性
 export interface VTableProps extends VTablePropsBase, Partial<TableProps<any>> {}
 
-export type VTableEmits = Record<keyof TableEmits, any>
+// 设置组件的对外类型VTableType， props + emits
+type emits = ComponentEmit<typeof ElTable>
+type eventNames = Parameters<emits>[0]
+// type eventValues = Parameters<emits> extends [any, ...infer Rest] ? Rest : never
+
+export type VTableEmits = Record<eventNames, any[]>
+// export type VTableEmits = Record<keyof TableEmits, any>
+
 export type VTableType = DefineComponent<VTableProps, {}, {}, {}, {}, {}, {}, VTableEmits>
+
+// 设置组件实例的对外类型
+export type VTableInstance = ComponentExposed<typeof VTable>
