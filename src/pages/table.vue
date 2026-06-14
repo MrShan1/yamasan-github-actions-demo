@@ -93,10 +93,16 @@ import dayjs from 'dayjs'
 const pagination = ref({
   align: 'right' as const,
   layout: 'total, sizes, prev, pager, next, jumper',
-  total: 0,
+  total: 100,
   pageSizes: [10, 20, 30, 40, 50, 100],
   defaultPageSize: 10,
   defaultCurrentPage: 1,
+  onSizeChange: (size: number) => {
+    console.log('size', size)
+  },
+  onCurrentChange: (current: number) => {
+    console.log('current', current)
+  },
 })
 
 const columns: VTableColumnProps[] = [
