@@ -1,14 +1,7 @@
 <template>
   <div>
     <el-table v-bind="$attrs" ref="tableRef">
-      <VTableColumn v-for="column in columns" :key="column.prop" v-bind="column">
-        <template #default="scope" v-if="column.defaultSlot">
-          <component :is="column.defaultSlot" v-bind="scope" />
-        </template>
-        <template #header="scope" v-if="column.headerSlot">
-          <component :is="column.headerSlot" v-bind="scope" />
-        </template>
-      </VTableColumn>
+      <VTableColumn v-for="column in columns" :key="column.prop" v-bind="column" />
       <slot />
       <template #append>
         <slot name="append" />

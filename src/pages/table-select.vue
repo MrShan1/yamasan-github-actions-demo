@@ -1,5 +1,45 @@
 <template>
   <el-tabs class="p-4">
+    <el-tab-pane label="展开行">
+      切换父级边框: <el-switch v-model="parentBorder" /> 切换子级边框:
+      <el-switch v-model="childBorder" /> 保留展开状态: <el-switch v-model="preserveExpanded" />
+      <VTable
+        :columns="[]"
+        :data="expandTableData"
+        :border="parentBorder"
+        :preserve-expanded-content="preserveExpanded"
+        style="width: 100%"
+      >
+        <VTableColumn type="expand">
+          <template #default="props">
+            <TableColumnDetail :row="props.row" :childBorder="childBorder" />
+          </template>
+        </VTableColumn>
+        <VTableColumn label="Date" prop="date" />
+        <VTableColumn label="Name" prop="name" />
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="自定义表头">
+      <VTable :columns="customHeaderColumns" :data="filteredTableDataBySearch" />
+    </el-tab-pane>
+    <el-tab-pane label="自定义列模板">
+      <VTable :columns="customColumns" :data="tableData">
+        <VTableColumn label="Operations">
+          <template #default="scope">
+            <el-button size="small" @click="console.log('Edit', scope.$index, scope.row)">
+              Edit
+            </el-button>
+            <el-button
+              size="small"
+              type="danger"
+              @click="console.log('Delete', scope.$index, scope.row)"
+            >
+              Delete
+            </el-button>
+          </template>
+        </VTableColumn>
+      </VTable>
+    </el-tab-pane>
     <el-tab-pane label="筛选">
       <VTable
         :columns="filterableColumns"
@@ -55,10 +95,12 @@
 </template>
 
 <script setup lang="tsx">
-import { VTable } from '@/components'
+import { VTable, VTableColumn, Iconify } from '@/components'
 import type { VTableColumnProps } from '@/components/Table/types'
-import { ref } from 'vue'
+import { ref, h, computed } from 'vue'
 import type { VTableInstance } from '@/components/Table/types'
+import TablePopover from './table-popover.vue'
+import TableColumnDetail from './table-column-detail.vue'
 
 const columns: VTableColumnProps[] = [
   {
@@ -378,4 +420,328 @@ const resetDateFilter = () => {
 const clearFilter = () => {
   filterTableRef.value!.table?.clearFilter()
 }
+
+// ---------- 自定义列模板 ----------
+const customColumns: VTableColumnProps[] = [
+  {
+    prop: '',
+    label: 'Date',
+    width: 180,
+    defaultSlot: ({ row }: { row: any }) => (
+      <div style="display: flex; align-items: center">
+        <Iconify icon="ep:timer" />
+        <span style="margin-left: 10px">{row.date}</span>
+      </div>
+    ),
+  },
+  {
+    prop: '',
+    label: 'Name',
+    width: 180,
+    defaultSlot: ({ row }: { row: any }) =>
+      h(TablePopover, { name: row.name, address: row.address }),
+  },
+  // {
+  //   prop: '',
+  //   label: 'Operations',
+  //   defaultSlot: ({ row, $index }: { row: any; $index: number }) => (
+  //     <>
+  //       <el-button
+  //         size="small"
+  //         onClick={() => {
+  //           console.log('Edit', $index, row)
+  //         }}
+  //       >
+  //         Edit
+  //       </el-button>
+  //       <el-button
+  //         size="small"
+  //         type="danger"
+  //         onClick={() => {
+  //           console.log('Delete', $index, row)
+  //         }}
+  //       >
+  //         Delete
+  //       </el-button>
+  //     </>
+  //   ),
+  // },
+]
+
+// ---------- 自定义表头 ----------
+const search = ref('')
+const filteredTableDataBySearch = computed(() =>
+  tableData.filter(
+    (data) => !search.value || data.name.toLowerCase().includes(search.value.toLowerCase()),
+  ),
+)
+
+const customHeaderColumns: VTableColumnProps[] = [
+  {
+    prop: 'date',
+    label: 'Date',
+  },
+  {
+    prop: 'name',
+    label: 'Name',
+  },
+  {
+    prop: '',
+    align: 'right',
+    headerSlot: ({ column }: { column: VTableColumnProps }) => (
+      <el-input
+        modelValue={search.value}
+        onUpdate:modelValue={(value: string) => (search.value = value)}
+        size="small"
+        placeholder="Type to search by name"
+      />
+    ),
+    defaultSlot: ({ row, $index }: { row: any; $index: number }) => (
+      <>
+        <el-button
+          size="small"
+          onclick={() => {
+            console.log('Edit', $index, row)
+          }}
+        >
+          Edit
+        </el-button>
+        <el-button
+          size="small"
+          type="danger"
+          onclick={() => {
+            console.log('Delete', $index, row)
+          }}
+        >
+          Delete
+        </el-button>
+      </>
+    ),
+  },
+]
+
+// ---------- 展开行 ----------
+const parentBorder = ref(false)
+const childBorder = ref(false)
+const preserveExpanded = ref(false)
+
+const expandTableData = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+    ],
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+    ],
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+    ],
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+    ],
+  },
+  {
+    date: '2016-05-08',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+    ],
+  },
+  {
+    date: '2016-05-06',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+    ],
+  },
+  {
+    date: '2016-05-07',
+    name: 'Tom',
+    state: 'California',
+    city: 'San Francisco',
+    address: '3650 21st St, San Francisco',
+    zip: 'CA 94114',
+    family: [
+      {
+        name: 'Jerry',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Spike',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+      {
+        name: 'Tyke',
+        state: 'California',
+        city: 'San Francisco',
+        address: '3650 21st St, San Francisco',
+        zip: 'CA 94114',
+      },
+    ],
+  },
+]
 </script>

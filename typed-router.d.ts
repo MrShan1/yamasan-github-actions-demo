@@ -65,6 +65,20 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/table-column-detail': RouteRecordInfo<
+      '/table-column-detail',
+      '/table-column-detail',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/table-popover': RouteRecordInfo<
+      '/table-popover',
+      '/table-popover',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/table-select': RouteRecordInfo<
       '/table-select',
       '/table-select',
@@ -118,6 +132,18 @@ declare module 'vue-router/auto-routes' {
     'src/pages/table.vue': {
       routes:
         | '/table'
+      views:
+        | never
+    }
+    'src/pages/table-column-detail.vue': {
+      routes:
+        | '/table-column-detail'
+      views:
+        | never
+    }
+    'src/pages/table-popover.vue': {
+      routes:
+        | '/table-popover'
       views:
         | never
     }

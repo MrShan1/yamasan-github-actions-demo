@@ -263,7 +263,7 @@ const columns2WithSlots: VTableColumnProps[] = [
     label: 'Operations',
     fixed: 'right',
     width: 120,
-    defaultSlot: ({ row, index }: { row: any; index: number }) => (
+    defaultSlot: ({ row, $index }: { row: any; $index: number }) => (
       <>
         <el-button
           link
@@ -271,7 +271,7 @@ const columns2WithSlots: VTableColumnProps[] = [
           size="small"
           onClick={(e: MouseEvent) => {
             e.preventDefault()
-            deleteRow(index)
+            deleteRow($index)
           }}
         >
           Remove
