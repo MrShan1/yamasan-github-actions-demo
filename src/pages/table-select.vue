@@ -1,5 +1,78 @@
 <template>
   <el-tabs class="p-4">
+    <el-tab-pane label="合并行或列">
+      <h3>合并行</h3>
+      <VTable :columns="[]" :data="summaryTableData" :span-method="arraySpanMethod" border>
+        <VTableColumn prop="id" label="ID" width="180" />
+        <VTableColumn prop="name" label="Name" />
+        <VTableColumn prop="amount1" sortable label="Amount 1" />
+        <VTableColumn prop="amount2" sortable label="Amount 2" />
+        <VTableColumn prop="amount3" sortable label="Amount 3" />
+      </VTable>
+      <h3 class="mt-4">合并列</h3>
+      <VTable :columns="[]" :data="summaryTableData" :span-method="objectSpanMethod" border>
+        <VTableColumn prop="id" label="ID" width="180" />
+        <VTableColumn prop="name" label="Name" />
+        <VTableColumn prop="amount1" label="Amount 1" />
+        <VTableColumn prop="amount2" label="Amount 2" />
+        <VTableColumn prop="amount3" label="Amount 3" />
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="表尾合计行">
+      <h3>合计行</h3>
+      <VTable :columns="[]" :data="summaryTableData" border show-summary>
+        <VTableColumn prop="id" label="ID" width="180" />
+        <VTableColumn prop="name" label="Name" />
+        <VTableColumn prop="amount1" sortable label="Amount 1" />
+        <VTableColumn prop="amount2" sortable label="Amount 2" />
+        <VTableColumn prop="amount3" sortable label="Amount 3" />
+      </VTable>
+      <h3 class="mt-4">自定义合计行</h3>
+      <VTable
+        :columns="[]"
+        :data="summaryTableData"
+        border
+        height="200"
+        :summary-method="getSummaries"
+        show-summary
+      >
+        <VTableColumn prop="id" label="ID" width="180" />
+        <VTableColumn prop="name" label="Name" />
+        <VTableColumn prop="amount1" label="Cost 1 ($)" />
+        <VTableColumn prop="amount2" label="Cost 2 ($)" />
+        <VTableColumn prop="amount3" label="Cost 3 ($)" />
+      </VTable>
+    </el-tab-pane>
+    <el-tab-pane label="树形数据和懒加载">
+      <h3>树形数据</h3>
+      <VTable
+        :columns="[]"
+        :data="treeTableData"
+        style="margin-bottom: 20px"
+        row-key="id"
+        border
+        default-expand-all
+      >
+        <VTableColumn prop="date" label="Date" sortable />
+        <VTableColumn prop="name" label="Name" sortable />
+        <VTableColumn prop="address" label="Address" sortable />
+      </VTable>
+      <h3>树形数据的懒加载</h3>
+      <VTable
+        :columns="[]"
+        :data="lazyTreeTableData"
+        style="margin-bottom: 20px"
+        row-key="id"
+        border
+        lazy
+        :load="load"
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+      >
+        <VTableColumn prop="date" label="Date" sortable />
+        <VTableColumn prop="name" label="Name" sortable />
+        <VTableColumn prop="address" label="Address" sortable />
+      </VTable>
+    </el-tab-pane>
     <el-tab-pane label="展开行">
       切换父级边框: <el-switch v-model="parentBorder" /> 切换子级边框:
       <el-switch v-model="childBorder" /> 保留展开状态: <el-switch v-model="preserveExpanded" />
@@ -97,7 +170,7 @@
 <script setup lang="tsx">
 import { VTable, VTableColumn, Iconify } from '@/components'
 import type { VTableColumnProps } from '@/components/Table/types'
-import { ref, h, computed } from 'vue'
+import { ref, h, computed, type VNode } from 'vue'
 import type { VTableInstance } from '@/components/Table/types'
 import TablePopover from './table-popover.vue'
 import TableColumnDetail from './table-column-detail.vue'
@@ -744,4 +817,185 @@ const expandTableData = [
     ],
   },
 ]
+
+// ---------- 树形数据和懒加载 ----------
+const load = (row: any, treeNode: unknown, resolve: (data: any[]) => void) => {
+  setTimeout(() => {
+    resolve([
+      {
+        id: 31,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        id: 32,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+    ])
+  }, 1000)
+}
+
+const treeTableData: any[] = [
+  {
+    id: 1,
+    date: '2016-05-02',
+    name: 'wangxiaohu',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    id: 2,
+    date: '2016-05-04',
+    name: 'wangxiaohu',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    id: 3,
+    date: '2016-05-01',
+    name: 'wangxiaohu',
+    address: 'No. 189, Grove St, Los Angeles',
+    children: [
+      {
+        id: 31,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        id: 32,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+    ],
+  },
+  {
+    id: 4,
+    date: '2016-05-03',
+    name: 'wangxiaohu',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+]
+
+const lazyTreeTableData: any[] = [
+  {
+    id: 1,
+    date: '2016-05-02',
+    name: 'wangxiaohu',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    id: 2,
+    date: '2016-05-04',
+    name: 'wangxiaohu',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    id: 3,
+    date: '2016-05-01',
+    name: 'wangxiaohu',
+    hasChildren: true,
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    id: 4,
+    date: '2016-05-03',
+    name: 'wangxiaohu',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+]
+
+// ---------- 表尾合计行 ----------
+const summaryTableData: any[] = [
+  {
+    id: '12987122',
+    name: 'Tom',
+    amount1: '234',
+    amount2: '3.2',
+    amount3: 10,
+  },
+  {
+    id: '12987123',
+    name: 'Tom',
+    amount1: '165',
+    amount2: '4.43',
+    amount3: 12,
+  },
+  {
+    id: '12987124',
+    name: 'Tom',
+    amount1: '324',
+    amount2: '1.9',
+    amount3: 9,
+  },
+  {
+    id: '12987125',
+    name: 'Tom',
+    amount1: '621',
+    amount2: '2.2',
+    amount3: 17,
+  },
+  {
+    id: '12987126',
+    name: 'Tom',
+    amount1: '539',
+    amount2: '4.1',
+    amount3: 15,
+  },
+]
+
+const getSummaries = (param: any) => {
+  const { columns, data } = param
+  const sums: (string | VNode)[] = []
+  columns.forEach((column: any, index: number) => {
+    if (index === 0) {
+      sums[index] = h('div', { style: { textDecoration: 'underline' } }, ['Total Cost'])
+      return
+    }
+    const values = data.map((item: any) => Number(item[column.property]))
+    if (!values.every((value: number) => Number.isNaN(value))) {
+      sums[index] = `$ ${values.reduce((prev: number, curr: number) => {
+        const value = Number(curr)
+        if (!Number.isNaN(value)) {
+          return prev + curr
+        } else {
+          return prev
+        }
+      }, 0)}`
+    } else {
+      sums[index] = 'N/A'
+    }
+  })
+
+  return sums
+}
+
+// ---------- 合并行或列 ----------
+const arraySpanMethod = ({ row, column, rowIndex, columnIndex }: any) => {
+  if (rowIndex % 2 === 0) {
+    if (columnIndex === 0) {
+      return [1, 2]
+    } else if (columnIndex === 1) {
+      return [0, 0]
+    }
+  }
+}
+
+const objectSpanMethod = ({ row, column, rowIndex, columnIndex }: any) => {
+  if (columnIndex === 0) {
+    if (rowIndex % 2 === 0) {
+      return {
+        rowspan: 2,
+        colspan: 1,
+      }
+    } else {
+      return {
+        rowspan: 0,
+        colspan: 0,
+      }
+    }
+  }
+}
 </script>
