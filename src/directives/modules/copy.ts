@@ -20,7 +20,7 @@ export default {
   updated(el: any, binding: DirectiveBinding) {
     el.__copyData = binding.value
   },
-  unmounted(el: any) {
+  beforeUnmount(el: any) {
     el.removeEventListener('click', el.__clickHandler)
   },
 }
