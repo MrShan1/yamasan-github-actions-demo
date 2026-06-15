@@ -1,5 +1,9 @@
 <template>
   <div class="p-4">
+    <h3 class="text-xl font-bold mb-2">v-flash</h3>
+    <div class="mb-2 flex items-center gap-2">
+      <div class="text-2xl" v-flash>Hello, world!</div>
+    </div>
     <h3 class="text-xl font-bold mb-2">v-throttle</h3>
     <div class="mb-2 flex items-center gap-2">
       <el-button type="primary" v-throttle="handleThrottleClick">节流点击</el-button>
