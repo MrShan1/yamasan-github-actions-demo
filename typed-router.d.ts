@@ -37,6 +37,13 @@ declare module 'vue-router/auto-routes' {
       { 404: ParamValue<false> },
       | never
     >,
+    '/directives': RouteRecordInfo<
+      '/directives',
+      '/directives',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/ep-icon-list': RouteRecordInfo<
       '/ep-icon-list',
       '/ep-icon-list',
@@ -108,6 +115,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/[...404].vue': {
       routes:
         | '/[...404]'
+      views:
+        | never
+    }
+    'src/pages/directives.vue': {
+      routes:
+        | '/directives'
       views:
         | never
     }
