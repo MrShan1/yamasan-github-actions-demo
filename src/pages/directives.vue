@@ -1,11 +1,26 @@
 <template>
   <div class="p-4">
+    <h3 class="text-xl font-bold mb-2">v-has</h3>
+    <div class="mb-2 flex items-center gap-2">
+      <el-button type="success" @click="changePermission('rights', 'admin')">设为管理员</el-button>
+      <el-button type="success" @click="changePermission('rights', 'user')">设为普通用户</el-button>
+      <el-button type="success" @click="changePermission('rights', ['admin', 'user'])"
+        >设为管理员和普通用户</el-button
+      >
+      <span class="text-gray-500">当前权限：{{ store.rights.join(',') }}</span>
+    </div>
+    <div class="mb-2 flex items-center gap-2">
+      <el-button type="primary" v-has:rights="['admin']">管理员按钮</el-button>
+      <el-button type="primary" v-has:rights="['user']">用户按钮</el-button>
+      <el-button type="primary" v-has:rights.not="['user']">非用户按钮</el-button>
+    </div>
+
     <h3 class="text-xl font-bold mb-2">v-hasPermission</h3>
     <div class="mb-2 flex items-center gap-2">
-      <el-button type="success" @click="changePermission('admin')">设置为管理员</el-button>
-      <el-button type="success" @click="changePermission('user')">设置为普通用户</el-button>
-      <el-button type="success" @click="changePermission(['admin', 'user'])"
-        >设置为管理员和普通用户</el-button
+      <el-button type="success" @click="changePermission('roles', 'admin')">设为管理员</el-button>
+      <el-button type="success" @click="changePermission('roles', 'user')">设为普通用户</el-button>
+      <el-button type="success" @click="changePermission('roles', ['admin', 'user'])"
+        >设为管理员和普通用户</el-button
       >
       <span class="text-gray-500">当前权限：{{ store.roles.join(',') }}</span>
     </div>
@@ -72,10 +87,10 @@ const toggleFlash = () => {
 
 // ---------- v-hasPermission ----------
 const store = useUserStore()
-const changePermission = (roles: string | string[]) => {
+const changePermission = (key: string, roles: string | string[]) => {
   if (typeof roles === 'string') {
     roles = [roles]
   }
-  store.$patch({ roles })
+  store.$patch({ [key]: roles })
 }
 </script>
