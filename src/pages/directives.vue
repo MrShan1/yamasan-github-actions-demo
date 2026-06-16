@@ -1,8 +1,15 @@
 <template>
   <div class="p-4">
     <h3 class="text-xl font-bold mb-2">v-flash</h3>
-    <div class="mb-2 flex items-center gap-2">
-      <div class="text-2xl" v-flash>Hello, world!</div>
+    <el-button type="primary" @click="toggleFlash">切换显示</el-button>
+    <div class="mb-2" v-if="isShowFlash">
+      <div class="text-2xl" v-flash>这是一段文字</div>
+      <ul v-flash>
+        <li>这是一段文字1</li>
+        <li>这是一段文字2</li>
+        <li>这是一段文字3</li>
+        <li>这是一段文字4</li>
+      </ul>
     </div>
     <h3 class="text-xl font-bold mb-2">v-throttle</h3>
     <div class="mb-2 flex items-center gap-2">
@@ -36,5 +43,11 @@ const handleClick = () => {
 let count = 0
 const handleThrottleClick = () => {
   console.log('节流点击', count++)
+}
+
+// ---------- v-flash ----------
+const isShowFlash = ref(true)
+const toggleFlash = () => {
+  isShowFlash.value = !isShowFlash.value
 }
 </script>
