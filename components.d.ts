@@ -50,6 +50,7 @@ declare module 'vue' {
     SvgIcon: typeof import('./src/components/Icon/SvgIcon.vue')['default']
     VTable: typeof import('./src/components/Table/VTable.vue')['default']
     VTableColumn: typeof import('./src/components/Table/VTableColumn.vue')['default']
+    VueEcharts: typeof import('./src/components/chart/VueEcharts.vue')['default']
   }
 }
 
@@ -93,4 +94,5 @@ declare global {
   const SvgIcon: typeof import('./src/components/Icon/SvgIcon.vue')['default']
   const VTable: typeof import('./src/components/Table/VTable.vue')['default']
   const VTableColumn: typeof import('./src/components/Table/VTableColumn.vue')['default']
+  const VueEcharts: typeof import('./src/components/chart/VueEcharts.vue')['default']
 }
