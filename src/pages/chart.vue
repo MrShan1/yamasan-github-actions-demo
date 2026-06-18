@@ -1,11 +1,36 @@
 <template>
-  <vue-echarts :option="option" theme="default" height="600px" />
+  <VueEcharts :option="pieOption" theme="#ffb" height="300px" />
+  <VueEcharts :option="barOption" theme="default" height="300px" />
+  <VueEcharts
+    :option="barOption"
+    :charts="['BarChart']"
+    :components="['TitleComponent', 'TooltipComponent', 'LegendComponent', 'GridComponent']"
+    theme="default"
+    height="300px"
+  />
 </template>
 
 <script setup lang="ts">
+import VueEcharts from '@/components/chart/VueEcharts.vue'
 import { ref } from 'vue'
 
-const option = ref({
+const barOption = ref({
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  },
+  yAxis: {
+    type: 'value',
+  },
+  series: [
+    {
+      data: [120, 200, 150, 80, 70, 110, 130],
+      type: 'bar',
+    },
+  ],
+})
+
+const pieOption = ref({
   title: {
     text: 'Traffic Sources',
     left: 'center',
@@ -21,6 +46,7 @@ const option = ref({
   },
   series: [
     {
+      universalTransition: true,
       name: 'Traffic Sources',
       type: 'pie',
       radius: '55%',
