@@ -12,6 +12,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Charts: typeof import('./src/components/chart/Charts.vue')['default']
     DarkModeToggle: typeof import('./src/components/Theme/DarkModeToggle.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
@@ -56,6 +57,7 @@ declare module 'vue' {
 
 // For TSX support
 declare global {
+  const Charts: typeof import('./src/components/chart/Charts.vue')['default']
   const DarkModeToggle: typeof import('./src/components/Theme/DarkModeToggle.vue')['default']
   const ElAvatar: typeof import('element-plus/es')['ElAvatar']
   const ElBadge: typeof import('element-plus/es')['ElBadge']

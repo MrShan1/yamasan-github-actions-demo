@@ -40,3 +40,29 @@
 - 解析option，提取要引入组件的名称。提取方法参考demo/utils/codegen.ts
 - 根据组件名称，动态导入组件，并使用use注册
 
+
+
+## 自定义封装ECharts组件及响应式调整
+
+不用第三方插件，实现手动封装ECharts组件
+
+- 在components/Chart下，创建Charts.vue，图表容器标记为chartRef
+- 为Charts设置props的类型，props中有options, width, height, autoresize
+- 在onMounted中，初始化echarts的实例，chartInstanceRef？？？
+- 创建chartStyle，合并attrs.style和width, height，最后绑定到图表style属性上
+- 在pages/chart.vue中，创建Charts的测试用例，传入option，测试展示效果
+
+实现autoresize功能：页面尺寸变化时，图表自动重绘
+
+- 创建resize函数，调用chartInstance.resize()
+- 创建resize函数的节流函数resizeFn。使用useThrottleFn
+- 在onMounted中，监听window的resize事件，页面尺寸变化时执行resizeFn
+- 在onBeforeUnMount中，销毁chartInstance，并注销resize监听事件
+
+chartRef和chartInstanceRef ，要使用ShallowRef，避免属性的深层次监听
+
+用户更新option时，应重新设置option。使用watch监听option变化，重新setOpiton()
+
+在pages/chart.vue中，测试option更新效果
+
+使用emit事件暴露chartInstance，后续交由用户控制，比转发emit+expose要简单很多
