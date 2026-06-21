@@ -14,6 +14,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Charts: typeof import('./src/components/chart/Charts.vue')['default']
     DarkModeToggle: typeof import('./src/components/Theme/DarkModeToggle.vue')['default']
+    Editor: typeof import('./src/components/Editor/Editor.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -59,6 +60,7 @@ declare module 'vue' {
 declare global {
   const Charts: typeof import('./src/components/chart/Charts.vue')['default']
   const DarkModeToggle: typeof import('./src/components/Theme/DarkModeToggle.vue')['default']
+  const Editor: typeof import('./src/components/Editor/Editor.vue')['default']
   const ElAvatar: typeof import('element-plus/es')['ElAvatar']
   const ElBadge: typeof import('element-plus/es')['ElBadge']
   const ElButton: typeof import('element-plus/es')['ElButton']

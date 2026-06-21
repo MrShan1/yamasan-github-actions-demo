@@ -66,3 +66,63 @@ chartRef和chartInstanceRef ，要使用ShallowRef，避免属性的深层次监
 在pages/chart.vue中，测试option更新效果
 
 使用emit事件暴露chartInstance，后续交由用户控制，比转发emit+expose要简单很多
+
+
+
+## 三款富文本编辑器推荐：TuiEditor&Vditor&Milkdown
+
+了解Quill，所见即所得，但不支持md
+
+了解TuiEditor，支持md，最新版本适配vue,react
+
+了解Vditor，支持md，支持JavaScript, vue, react
+
+了解Milkdown，支持md，但只支持ESModule，无法通过cdn引入
+
+
+
+## 自定义富文本编辑器组件：集成Vditor
+
+创建Editor组件
+
+- 安装Vditor。参考Vditor官方的[使用文档](https://ld246.com/article/1549638745630#---%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3)
+- 在components/Editor下创建Editor.vue，引入Vditor相关组件和样式
+- 在onMounted中，初始化Vditor实例editorInstance
+- 在pages下创建editor.vue，引入Editor，测试富文本组件展示效果
+
+处理Editor组件的props：TS定义、默认值
+
+- 为Editor添加props的TS定义。和以往不同，使用reference方法引入Vditor。reference三斜线指令是比较旧的用法，了解即可，现在一般用 import type
+- 定义defineProps，使用props的TS定义
+- 为Editor添加props的默认值。根据Vditor的类型注释，使用AI工具生成默认值大对象
+- 在初始化Vditor实例时，将默认值大对象与prop.options合并后传入
+
+处理Editor组件的Vditor实例：实例暴露、实例注销
+
+- 在onMounted中，使用emit的方式，通过init事件将editorInstance传递出来，交由用户控制
+- 在onBeforeUnmount中，注销editorInstance
+
+通过v-model简化文本同步：文本编辑、文本变动监听
+
+- 在Editor中，通过defineModel定义modelvalue，用于同步文本变动
+- 在实例的options中，添加钩子函数after和input，文本变动时更新modelvalue
+- 如果用户也传了after和input，则对其包装后手动触发
+- 使用watch监听modelvalue，用户在外部更新modelvalue变动时，更新实例的value。记得对比实例的旧value，有变化时才更新。
+
+调整默认值设置
+
+- rtl: false 从左向右输入
+- mode: 推荐ir模式，类似与typora使用
+- minHeight: 400 设置最小高度
+
+实现更新视图配置：例如组件语言
+
+- 将Vditor实例的初始化处理，提取到至initEditor函数中
+- onMounted时，调用initEditor()
+- 使用watch监听props.options变动，变动时更新视图配置
+  - 使用historyRef缓存Vditor实例的value
+  - 注销Vditor实例
+  - 重新生成Vditor实例
+  - 在after钩子中，将historyRef的value重新设置给实例。记得setValue时，第二个参数设为true，清空历史堆栈，这样可以避免报错
+- 在editor.vue中，测试修改options.lang时，富文本组件的变化
+

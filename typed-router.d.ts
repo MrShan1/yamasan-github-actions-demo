@@ -51,6 +51,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/editor': RouteRecordInfo<
+      '/editor',
+      '/editor',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/ep-icon-list': RouteRecordInfo<
       '/ep-icon-list',
       '/ep-icon-list',
@@ -134,6 +141,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/directives.vue': {
       routes:
         | '/directives'
+      views:
+        | never
+    }
+    'src/pages/editor.vue': {
+      routes:
+        | '/editor'
       views:
         | never
     }
