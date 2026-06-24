@@ -31,23 +31,26 @@ const computedStyle = computed(() => {
   return { ...style, ...props.style }
 })
 
-// 在组件挂载前，根据option自动导入需要的模块
-onBeforeMount(() => {
-  let { charts, components, features } = getImportModules(props.option)
-  // console.log(charts, components, features)
+// 非生产环境才导入需要的模块，生产环境使用cdn全量引入
+if (import.meta.env.MODE !== 'production') {
+  // 在组件挂载前，根据option自动导入需要的模块
+  onBeforeMount(() => {
+    let { charts, components, features } = getImportModules(props.option)
+    // console.log(charts, components, features)
 
-  if (props.charts && props.charts.length > 0) {
-    charts = props.charts
-  }
-  if (props.components && props.components.length > 0) {
-    components = props.components
-  }
+    if (props.charts && props.charts.length > 0) {
+      charts = props.charts
+    }
+    if (props.components && props.components.length > 0) {
+      components = props.components
+    }
 
-  use([
-    CanvasRenderer,
-    ...charts.map((name) => Charts[name]),
-    ...components.map((name) => Components[name]),
-    ...features.map((name) => Features[name]),
-  ])
-})
+    use([
+      CanvasRenderer,
+      ...charts.map((name) => Charts[name]),
+      ...components.map((name) => Components[name]),
+      ...features.map((name) => Features[name]),
+    ])
+  })
+}
 </script>

@@ -10,7 +10,8 @@ const iconRef = ref<string>('@local:mdi:123') // 初始化图标
 
 // 添加本地图标提供者
 addAPIProvider('local', {
-  resources: ['http://localhost:5173'],
+  resources: [import.meta.env.VITE_ICON_SERVER_URL || 'http://localhost:5173'],
+  // resources: [window.location.origin], // 使用当前域名
 })
 
 // ------------------------------国际化功能---------------------------------

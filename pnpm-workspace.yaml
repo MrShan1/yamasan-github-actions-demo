@@ -1,2 +1,4 @@
 allowBuilds:
   esbuild: false
+  rs-module-lexer: false
+  vue-demi: false
