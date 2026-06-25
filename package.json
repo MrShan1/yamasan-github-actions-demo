@@ -15,7 +15,8 @@
     "format": "prettier --write --experimental-cli src/",
     "p": "run-s build-only preview",
     "analysis": "cross-env ANALYSIS=true npm run p",
-    "build:debug": "cross-env SOURCEMAP=true npm run p"
+    "build:debug": "cross-env SOURCEMAP=true npm run p",
+    "build:actions": "cross-env VITE_ACTIONS=true npm run build"
   },
   "dependencies": {
     "@iconify/json": "^2.2.476",

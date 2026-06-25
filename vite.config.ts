@@ -41,6 +41,7 @@ export default defineConfig(({ mode }) => {
   const isProd = mode === 'production'
   const isAnalysis = process.env.ANALYSIS === 'true' // 是否进行包体分析
   const isSourcemap = process.env.SOURCEMAP === 'true' // 是否生成sourcemap文件
+  const isActions = process.env.VITE_ACTIONS === 'true' // 是否执行actions
 
   const componentsPlugin = Components({
     directoryAsNamespace: false, // 是否将目录作为命名空间
@@ -54,6 +55,7 @@ export default defineConfig(({ mode }) => {
   // console.log('环境变量', env.VITE_APP_TITLE)
 
   return {
+    base: isActions ? '/yamasan-github-actions-demo/' : './',
     build: {
       rolldownOptions: {
         external: excludeEpLocales,
