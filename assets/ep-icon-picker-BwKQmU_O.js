@@ -1,0 +1,1 @@
+import{t as e}from"./IconPicker-DUoQ8sea.js";var t={class:`p-4`},n=Vue.defineComponent({__name:`ep-icon-picker`,setup(n){let r=e=>{console.log(e)};return(n,i)=>{let a=e;return Vue.openBlock(),Vue.createElementBlock(`div`,t,[Vue.createVNode(a,{onConfirm:r,width:`50%`})])}}});export{n as default};

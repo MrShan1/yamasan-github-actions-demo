@@ -1,0 +1,1 @@
+var e={hello:{t:0,b:{t:2,i:[{t:3}],s:`Hello, World`}},any:{thing:{t:0,b:{t:2,i:[{t:3}],s:`anything`}}}};export{e as default};

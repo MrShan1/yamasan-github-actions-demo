@@ -1,0 +1,1 @@
+var e={hello:{t:0,b:{t:2,i:[{t:3}],s:`你好，世界`}},any:{thing:{t:0,b:{t:2,i:[{t:3}],s:`任何事物`}}}};export{e as default};

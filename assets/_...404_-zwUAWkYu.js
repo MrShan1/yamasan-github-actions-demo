@@ -1,0 +1,1 @@
+import{t as e}from"./_plugin-vue_export-helper-BOai-rQB.js";var t={};function n(e,t){return Vue.openBlock(),Vue.createElementBlock(`div`,null,`404 Not Found`)}var r=e(t,[[`render`,n]]);export{r as default};
