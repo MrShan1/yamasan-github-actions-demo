@@ -2,16 +2,14 @@
 
 ## 认识GithubActions
 
-**简单了解工作流程文件。工作流程文件通常为yaml文件**
+**简单了解工作流程文件。工作流程文件通常为yml文件**
 
-- name:   工作流名称
+- name: 工作流名称
 
 - on: 工作流的触发器，可以设置多个触发器
 
 - jobs: 工作流中运行的所有作业
-
   - xxx-job: 名为xxx-job的作业
-
     - runs-on: 作业运行的机器类型
 
     - steps: 作业的所有步骤
@@ -19,7 +17,7 @@
       ```markdown
       - name: 步骤名称
         uses: 在作业步骤中运行的操作
-        run:  在作业步骤中中运行的命令行程序
+        run: 在作业步骤中中运行的命令行程序
       ```
 
 **创建GitHub仓库，为实践GithubActions做准备**
@@ -35,8 +33,6 @@
 - 编写工作流。简单编写，只用来测试
 - 提交工作流。Commit changes
 - 执行工作流。Actions -> Run workflow
-
-
 
 ## GithubActions来发布一个vue3基础项目
 
@@ -56,12 +52,41 @@
 **发布网站**
 
 - 在工作流中添加步骤6：发布网站。使用模板Github pages，设置build_dir和token
-- 为工作流添加写入权限。在工作流中，添加permissions: contents: write
-- 执行工作流，生成网站所需的资源文件，放在自动创建的分支
-- 发布网站。在settings -> pages中，设置要部署的网站，生成部署网站的工作流pages build and deployment，并自动开始执行
-- 尝试访问网站。选择部署网站工作流的deploy，点击链接访问网站
-- 解决资源路径问题。在项目vite.config.ts中，调整网站的base路径，根据环境变量动态添加网站前缀
-- 再次访问网站确认结果
-- 将远程代码拉取到本地同步
-- 解决下划线资源被忽略问题。在发布网站步骤中，添加配置jekyll: false
 
+- 为工作流添加写入权限。在工作流中，添加permissions: contents: write
+
+- 执行工作流，生成网站所需的资源文件，放在自动创建的分支
+
+- 发布网站。在settings -> pages中，设置要部署的网站，选择Deploy from branch，生成部署网站的工作流pages build and deployment，并自动开始执行
+
+- 尝试访问网站。选择部署网站工作流的deploy，点击链接访问网站
+
+- 将远程代码拉取到本地同步
+
+**解决发布问题**
+
+- 解决资源路径问题。在项目vite.config.ts中，调整网站的base路径，根据环境变量动态添加Github Pages网站前缀
+- 解决下划线资源被忽略问题。在发布网站步骤中，添加配置jekyll: false
+- 解决history路由不支持问题。添加build:actions脚本，在脚本中添加环境变量VITE_ACTIONS，Github Pages时使用hash模式
+
+## 实践GithubActions：template项目发布静态站
+
+**调整网站发布流程**
+
+- 修改网站发布方式。在settings -> pages中，修改为GitHub Actions。Jekyll对静态资源加载不友好
+- 调整工作流配置。参照Vite的 [GitHub Pages](https://cn.vitejs.dev/guide/static-deploy#github-pages) 说明，添加permissions、concurrency配置，在job中添加environment配置，调整GitHub Pages相关步骤的配置
+- 执行工作流。构建完成后，会直接发布网站，访问网站查看资源加载情况
+
+**实现网站前缀的动态设置**
+
+- 添加提取仓库名称步骤。添加install步骤后，添加一个步骤，通过shell指令获取环境变量 [GITHUB_REPOSITORY](https://docs.github.com/zh/actions/reference/workflows-and-actions/variables)，并截取仓库名称 `REPO_NAME`，将其写入 `GITHUB_ENV` 中。参考[设置环境变量](https://docs.github.com/zh/actions/reference/workflows-and-actions/workflow-commands#setting-an-environment-variable)
+- 在build步骤中添加环境变量。在env中添加环境变量 `BASE_PATH`，利用 `env.REPO_NAME`设置网站前缀
+- 在vite.config.ts中，根据env.BASE_PATH，调整网站前缀base的设置
+- 执行工作流，确认网站前缀改为动态后，网站资源访问依然生效
+- 临时修改仓库名，手动触发工作流，确认网站资源访问依然生效，然后还原仓库名
+
+**优化git提交记录**
+
+- 使用git rebase删除无用的提交记录，优化GitHub上的提交历史，相对干净一些
+- `git rebase -i head~9 `，意思是，可以对最近 9 个提交进行交互式变基，让你可以修改、合并、重新排序或删除它们。
+- 你可以将 `pick` 修改为其他命令。pick：`保留这个提交，不变`；squash：`合并到前一个提交，并合并提交信息`

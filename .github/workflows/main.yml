@@ -6,11 +6,22 @@ on:
     branches: ['main']
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
   build:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.0
@@ -30,18 +41,38 @@ jobs:
       - name: install
         run: pnpm install
 
-      - name: build
-        # run: pnpm build
-        run: pnpm build:actions
+      - name: Extract repository name
+        # 提取仓库名称，用于设置网站前缀
+        run: echo "REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)" >> $GITHUB_ENV
 
-      - name: display dist list
-        run: ls -la && ls dist/
+      - name: build
+        env:
+          BASE_PATH: '/${{ env.REPO_NAME }}/'
+        run: pnpm build
+        # run: pnpm build:pages
+
+      - name: Setup Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+        with:
+          # 上传 dist 文件夹
+          path: './dist'
 
       - name: Deploy to GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v5
-        with:
-          target_branch: gh-pages
-          build_dir: dist
-          jekyll: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
+
+
+      # - name: display dist list
+      #   run: ls -la && ls dist/
+
+      # - name: Deploy to GitHub Pages
+      #   uses: crazy-max/ghaction-github-pages@v5
+      #   with:
+      #     target_branch: gh-pages
+      #     build_dir: dist
+      #     jekyll: false
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
