@@ -41,15 +41,17 @@ jobs:
       - name: install
         run: pnpm install
 
-      - name: Extract repository name
-        # 提取仓库名称，用于设置网站前缀
-        run: echo "REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)" >> $GITHUB_ENV
+      # 如果是自定义的域名，则不需要配置下面的内容
+      # - name: Extract repository name
+      # 提取仓库名称，用于设置网站前缀
+      # run: echo "REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)" >> $GITHUB_ENV
 
       - name: build
         env:
-          BASE_PATH: '/${{ env.REPO_NAME }}/'
-        run: pnpm build
-        # run: pnpm build:pages
+          # BASE_PATH: '/${{ env.REPO_NAME }}/'
+          BASE_PATH: '/'
+        # run: pnpm build
+        run: pnpm build:pages
 
       - name: Setup Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6

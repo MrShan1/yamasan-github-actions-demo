@@ -89,4 +89,25 @@
 
 - 使用git rebase删除无用的提交记录，优化GitHub上的提交历史，相对干净一些
 - `git rebase -i head~9 `，意思是，可以对最近 9 个提交进行交互式变基，让你可以修改、合并、重新排序或删除它们。
-- 你可以将 `pick` 修改为其他命令。pick：`保留这个提交，不变`；squash：`合并到前一个提交，并合并提交信息`
+- 你可以将 `pick` 修改为其他命令。pick：`保留这个提交，不变`；squash：`合并到前一个提交，并合并提交信息`，fixup：`合并到前一个提交，但丢弃该提交的提交信息`
+- 使用强制提交，优化远端提交历史。`git push origin main -f`，直接用自己的本地提交覆盖远程分支，丢失远程独有的提交
+
+
+
+## GithubPages自定义域名开启HTTPS
+
+购买互联网域名。在阿里云购买一个互联网域名，我的域名放在Cloudflare上管理
+
+在GitHub上添加此域名。在用户Settings/Pages中，将购买的域名添加进去，确认GitHub的`DNS TXT`记录，包括`主机记录（Host）`和`记录值（Value）`
+
+在Cloudflare添加GitHub的`DNS TXT`记录。在[CloudFlare/DNS/记录](https://dash.cloudflare.com/d128c846bfc879322ae2398516c8240e/yamasan.top/dns/records)中，添加TXT记录，填写`DNS TXT`的两个记录，用于**GitHub验证你对这个域名的所有权**，使用完可以删除
+
+在GitHub上验证域名所有权。在用户Settings/pages中，点击Verify，确认验证结果
+
+在Cloudflare添加子域名的`CNAME`记录。在[CloudFlare/DNS/记录](https://dash.cloudflare.com/d128c846bfc879322ae2398516c8240e/yamasan.top/dns/records)中，添加CNAME记录，名称为 `vue3-dev-demo`，目标为`<user>.github.io`，将您的子域指向站点的默认域名。这条记录是网站能够被正常访问的基础，**必须永久保留**。详情参考GitHub的[配置子域](https://docs.github.com/zh/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-a-subdomain)
+
+自定义仓库的子域名。在仓库Settings/Pages中，在互联网域名的基础上，自定义一个子域名：`vue3-dev-demo.yamasan.top`，点击保存（等待DNS检查通过后），然后尝试访问改网站
+
+调整工作流，解决资源路径前缀问题。在工作流中，移除提取仓库名称的步骤；调整项目的vite.config.ts，修改base设置，不再需要资源前缀
+
+设置网站快捷访问。在仓库首页，点击右上角设置图标，在Website中添加网站的互联网域名，方便直接访问
