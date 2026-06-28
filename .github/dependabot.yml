@@ -24,7 +24,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-      time: "11:57"
+      time: "12:06"
       timezone: "Asia/Shanghai"
     registries:
       - "github-packages"
