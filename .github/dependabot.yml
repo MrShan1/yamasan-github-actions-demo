@@ -3,28 +3,36 @@
 # Please see the documentation for all configuration options:
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
-# version: 2
-# updates:
-#   - package-ecosystem: 'npm' # See documentation for possible values
-#     directory: '/' # Location of package manifests
-#     schedule:
-#       interval: 'daily' # 测试用
-#       time: '12:25'
-#       timezone: 'Asia/Shanghai'
-
+# 使用npm官方仓库更新依赖
 version: 2
 registries:
-  github-packages:
+  npm-official:
     type: 'npm-registry'
-    url: 'https://npm.pkg.github.com'
-    token: ${{ secrets.GH_PACKAGES_TOKEN }}
-
+    url: 'https://registry.npmjs.org' # 强制使用npm官方仓库，解决Dependabot无法github仓库更新依赖的问题
+    # token: ${{ secrets.GH_PACKAGES_TOKEN }}
 updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'daily'
-      time: '12:31'
+      interval: 'daily' # 测试用
+      time: '12:37'
       timezone: 'Asia/Shanghai'
     registries:
-      - 'github-packages'
+      - 'npm-official'
+
+# 使用github-packages仓库更新依赖
+# version: 2
+# registries:
+#   github-packages:
+#     type: 'npm-registry'
+#     url: 'https://npm.pkg.github.com'
+#     token: ${{ secrets.GH_PACKAGES_TOKEN }}
+# updates:
+#   - package-ecosystem: 'npm'
+#     directory: '/'
+#     schedule:
+#       interval: 'daily'
+#       time: '12:31'
+#       timezone: 'Asia/Shanghai'
+#     registries:
+#       - 'github-packages'
