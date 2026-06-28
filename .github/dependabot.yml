@@ -3,25 +3,17 @@
 # Please see the documentation for all configuration options:
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
-# 使用npm官方仓库更新依赖
+# 使用npm官方仓库更新依赖，解决Dependabot无法github仓库更新依赖的问题，需要配置npmrc文件
 version: 2
-registries:
-  npm-official:
-    type: 'npm-registry'
-    url: 'https://registry.npmjs.org' # 强制使用npm官方仓库，解决Dependabot无法github仓库更新依赖的问题
-    token: ${{ secrets.GH_PACKAGES_TOKEN }}
-
 updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'daily' # 测试用
-      time: '12:43'
+      time: '13:13'
       timezone: 'Asia/Shanghai'
-    registries:
-      - 'npm-official'
 
-# 使用github-packages仓库更新依赖
+# 使用github-packages仓库更新依赖，需要配置token
 # version: 2
 # registries:
 #   github-packages:
