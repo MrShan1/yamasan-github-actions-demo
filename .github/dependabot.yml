@@ -23,8 +23,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-      time: "11:39"
+      time: "11:40"
       timezone: "Asia/Shanghai"
-    # 仅当需要从 github-packages 获取私有 scope 下的包时才列出 registries:
       registries:
       - "github-packages"
