@@ -10,7 +10,7 @@ updates:
     directory: '/'
     schedule:
       interval: 'daily' # 测试用
-      time: '13:13'
+      time: '13:14'
       timezone: 'Asia/Shanghai'
 
 # 使用github-packages仓库更新依赖，需要配置token
