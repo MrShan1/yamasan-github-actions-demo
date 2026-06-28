@@ -19,11 +19,11 @@ registries:
     url: "https://npm.pkg.github.com"
     token: "${{secrets.GITHUB_TOKEN}}"
 updates:
-  - package-ecosystem: "npm_and_yarn"
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
-      time: "11:37"
+      time: "11:39"
       timezone: "Asia/Shanghai"
     # 仅当需要从 github-packages 获取私有 scope 下的包时才列出 registries:
       registries:
