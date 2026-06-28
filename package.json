@@ -19,7 +19,7 @@
     "build:pages": "cross-env VITE_GITHUB_PAGES=true npm run build"
   },
   "dependencies": {
-    "@iconify/json": "^2.2.476",
+    "@iconify/json": "^2.2.492",
     "@tailwindcss/vite": "^4.3.0",
     "@vueuse/core": "^14.3.0",
     "dayjs": "^1.11.21",
@@ -29,7 +29,7 @@
     "tailwindcss": "^4.3.0",
     "vditor": "^3.11.2",
     "vue": "^3.5.32",
-    "vue-component-type-helpers": "^3.3.4",
+    "vue-component-type-helpers": "^3.3.5",
     "vue-demi": "^0.14.10",
     "vue-echarts": "^8.0.1",
     "vue-i18n": "^11.4.4",
@@ -46,13 +46,13 @@
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/tsconfig": "^0.9.1",
     "cross-env": "^10.1.0",
-    "eslint": "^10.2.1",
+    "eslint": "^10.6.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-oxlint": "~1.60.0",
     "eslint-plugin-vue": "~10.8.0",
     "jiti": "^2.6.1",
     "less": "^4.6.4",
-    "npm-run-all2": "^8.0.4",
+    "npm-run-all2": "^9.0.2",
     "oxlint": "~1.60.0",
     "prettier": "3.8.3",
     "rollup-plugin-visualizer": "^7.0.1",
@@ -67,7 +67,7 @@
     "vite-plugin-inspect": "^11.4.1",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-devtools": "^8.1.1",
-    "vue-tsc": "^3.2.6"
+    "vue-tsc": "^3.3.5"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
