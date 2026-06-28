@@ -34,6 +34,8 @@
 - 提交工作流。Commit changes
 - 执行工作流。Actions -> Run workflow
 
+
+
 ## GithubActions来发布一个vue3基础项目
 
 **编写真实的工作流**
@@ -68,6 +70,8 @@
 - 解决资源路径问题。在项目vite.config.ts中，调整网站的base路径，根据环境变量动态添加Github Pages网站前缀
 - 解决下划线资源被忽略问题。在发布网站步骤中，添加配置jekyll: false
 - 解决history路由不支持问题。添加build:actions脚本，在脚本中添加环境变量VITE_ACTIONS，Github Pages时使用hash模式
+
+
 
 ## 实践GithubActions：template项目发布静态站
 
@@ -124,7 +128,7 @@
 
 **设置bot的自动批准pr功能**。在仓库的.github/workflows中，创建一个新的工作流dependabot.yml，编写自动批准pr的工作流并保存。内容参考[自动批准拉取请求](https://docs.github.com/zh/code-security/tutorials/secure-your-dependencies/automate-dependabot-with-actions#automatically-approving-a-pull-request)
 
-**启用bot的自动版本更新**。在仓库/Settings/Advanced Security中，启用`Dependabot security updates`，配置版本更新用的工作流yml，配置`package-ecosystem`、`schedule`等，然后保存提交，并确认配置校验通过。配置项参考[Dependabot 选项参考](https://docs.github.com/zh/code-security/reference/supply-chain-security/dependabot-options-reference)
+**启用bot的自动版本更新**。在仓库/Settings/Advanced Security中，启用`Dependabot security updates`，它会自动跳转到工作流编辑页面；配置版本更新用的工作流yml，配置`package-ecosystem`、`schedule`等，然后保存提交，并确认配置校验通过。配置项参考[Dependabot 选项参考](https://docs.github.com/zh/code-security/reference/supply-chain-security/dependabot-options-reference)
 
 **提高工作流的读写权限，使bot工作流生效**。在仓库/Settings/Actions/General中，找到Workflow permissions，修改工作流权限，允许读写，允许创建和批准pr
 
